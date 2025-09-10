@@ -61,6 +61,16 @@ public class Driver {
         }
     }
 
+    private float[] createOffsetSquare(float side, float offsetX, float offsetY) {
+        float half = side / 2f;
+        return new float[]{
+                -half + offsetX, -half + offsetY,
+                half + offsetX, -half + offsetY,
+                half + offsetX,  half + offsetY,
+                -half + offsetX,  half + offsetY
+        };
+    }
+
     private void initGLFWindow() {
         glfwSetErrorCallback(errorCallback =
                 GLFWErrorCallback.createPrint(System.err));
@@ -166,7 +176,7 @@ public class Driver {
         final int NUM_INDICES = NUM_TRIANGLES * VERTICES_PER_TRIANGLE;
 
         // ✅ use helper to create square vertices instead of inline
-        float[] vertices = createCenteredSquare(RECT_SIDE);
+        float[] vertices = createOffsetSquare(RECT_SIDE, 30f, 20f);
 
         int[] indices = {0, 1, 2, 0, 2, 3};
 
