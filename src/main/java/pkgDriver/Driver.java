@@ -170,39 +170,45 @@ public class Driver {
         int vbo = glGenBuffers();
         int ibo = glGenBuffers();
 
-        final float RECT_SIDE = 40f; // ✅ simplified width/height into one "side"
+        final float RECT_SIDE = 40f;
         final int NUM_TRIANGLES = 2;
         final int VERTICES_PER_TRIANGLE = 3;
         final int NUM_INDICES = NUM_TRIANGLES * VERTICES_PER_TRIANGLE;
-
-        // ✅ use helper to create square vertices instead of inline
-        float[] vertices = createOffsetSquare(RECT_SIDE, 30f, 20f);
-
         int[] indices = {0, 1, 2, 0, 2, 3};
 
+        // ✅ First: Center square
+        float[] square1 = createCenteredSquare(RECT_SIDE);
+
+        // ✅ Second: Offset square
+        float[] square2 = createOffsetSquare(RECT_SIDE, 60f, 40f);
+
+        // --- Setup OpenGL buffers ---
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
-        glBufferData(GL_ARRAY_BUFFER, (FloatBuffer) BufferUtils.
-                createFloatBuffer(vertices.length).
-                put(vertices).flip(), GL_STATIC_DRAW);
         glEnableClientState(GL_VERTEX_ARRAY);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, (IntBuffer) BufferUtils.
-                createIntBuffer(indices.length).
-                put(indices).flip(), GL_STATIC_DRAW);
+                createIntBuffer(indices.length).put(indices).flip(), GL_STATIC_DRAW);
         final int VERTEX_COMPONENTS = 2;
         glVertexPointer(VERTEX_COMPONENTS, GL_FLOAT, 0, 0L);
-        viewProjMatrix.setOrtho(ORTHO_LEFT, ORTHO_RIGHT , ORTHO_BOTTOM , ORTHO_TOP , ORTHO_NEAR , ORTHO_FAR);
-        glUniformMatrix4fv(vpMatLocation, false,
-                viewProjMatrix.get(myFloatBuffer));
-        glUniform3f(renderColorLocation, 1.0f, 0.498f, 0.153f);
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
         while (!glfwWindowShouldClose(window)) {
             glfwPollEvents();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+            // ✅ Draw centered square (orange)
+            glBufferData(GL_ARRAY_BUFFER, (FloatBuffer) BufferUtils.
+                    createFloatBuffer(square1.length).put(square1).flip(), GL_STATIC_DRAW);
+            glUniform3f(renderColorLocation, 1.0f, 0.498f, 0.153f);
             glDrawElements(GL_TRIANGLES, NUM_INDICES, GL_UNSIGNED_INT, 0L);
+
+            // ✅ Draw offset square (green)
+            glBufferData(GL_ARRAY_BUFFER, (FloatBuffer) BufferUtils.
+                    createFloatBuffer(square2.length).put(square2).flip(), GL_STATIC_DRAW);
+            glUniform3f(renderColorLocation, 0.0f, 0.8f, 0.2f);
+            glDrawElements(GL_TRIANGLES, NUM_INDICES, GL_UNSIGNED_INT, 0L);
+
             glfwSwapBuffers(window);
         }
     }
+
 }
