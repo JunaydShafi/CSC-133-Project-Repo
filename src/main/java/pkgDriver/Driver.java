@@ -40,8 +40,8 @@ public class Driver {
     // square size as world units
     private static final float SQUARE_SIDE = 40f;
 
-    // color green
-    private static final float[] SQUARE_COLOR = {0.5f, 1.0f, 0.0f};
+    // color Silver
+    private static final float[] SQUARE_COLOR = {0.75f, 0.75f, 0.75f};
 
     // background
     private static final float[] CLEAR_COLOR = {0.043f, 0.380f, 0.588f, 1.0f};
