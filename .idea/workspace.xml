@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9e40f1eb-b7d4-4db3-87a3-355488ffc561" name="Changes" comment="" />
+    <list default="true" id="9e40f1eb-b7d4-4db3-87a3-355488ffc561" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -94,6 +96,7 @@
     "Application.TEXTURE_TILES.executor": "Run",
     "Gradle.2024FallTexturemapMario [:Main.main()].executor": "Run",
     "Gradle.ASSIGNMENT_1 [:pkgDriver.Driver.main()].executor": "Run",
+    "Gradle.ASSIGNMENT_3Now [:pkgDriver.Driver.main()].executor": "Run",
     "Gradle.Assignment_7Solution [:Main.main()].executor": "Run",
     "Gradle.Assignment_7_Solution [:Main.main()].executor": "Run",
     "Gradle.Assignment_7_SolutionFlyingMario [:Main.main()].executor": "Run",
@@ -105,11 +108,13 @@
     "Gradle.SlIOManagerTest.executor": "Run",
     "JUnit.SlIOManagerTest.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "git-widget-placeholder": "GitRepo",
+    "git-widget-placeholder": "Assignment3",
+    "ignore.virus.scanning.warn.message": "true",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/jeoju/Documents/Second Semester Fall 2025/CSC 133 Object Oriented Graph/ASSIGNMENT_3Now",
