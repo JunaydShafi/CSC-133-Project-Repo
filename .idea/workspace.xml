@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9e40f1eb-b7d4-4db3-87a3-355488ffc561" name="Changes" comment="Interim; Incomplete; Does Not Compile;&#10;&#10;fixed the gl window in window manager" />
+    <list default="true" id="9e40f1eb-b7d4-4db3-87a3-355488ffc561" name="Changes" comment="Interim; Incomplete; Compiles;&#10;&#10;Cleaned up window manager, it was a mess, now need to get the final finishing touches, not working properly.">
+      <change beforePath="$PROJECT_DIR$/src/main/java/pkgSlUtilities/SlWindowManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pkgSlUtilities/SlWindowManager.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -452,7 +454,23 @@
       <option name="project" value="LOCAL" />
       <updated>1760131318082</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Interim; Incomplete; Does Not Compile;&#10;&#10;rearranged the init buffers have to fix glfwframebuffer">
+      <option name="closed" value="true" />
+      <created>1760131405708</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1760131405708</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Interim; Incomplete; Compiles;&#10;&#10;Cleaned up window manager, it was a mess, now need to get the final finishing touches, not working properly.">
+      <option name="closed" value="true" />
+      <created>1760131610765</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1760131610765</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -478,7 +496,9 @@
     <MESSAGE value="Interim; Incomplete; Does Not Compile;&#10;&#10;finished grid creator" />
     <MESSAGE value="Interim; Incomplete; Does Not Compile;&#10;&#10;finished driver Need to fix the window manager" />
     <MESSAGE value="Interim; Incomplete; Does Not Compile;&#10;&#10;fixed the gl window in window manager" />
-    <option name="LAST_COMMIT_MESSAGE" value="Interim; Incomplete; Does Not Compile;&#10;&#10;fixed the gl window in window manager" />
+    <MESSAGE value="Interim; Incomplete; Does Not Compile;&#10;&#10;rearranged the init buffers have to fix glfwframebuffer" />
+    <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;Cleaned up window manager, it was a mess, now need to get the final finishing touches, not working properly." />
+    <option name="LAST_COMMIT_MESSAGE" value="Interim; Incomplete; Compiles;&#10;&#10;Cleaned up window manager, it was a mess, now need to get the final finishing touches, not working properly." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -37,10 +37,8 @@ public class SlWindowManager {
     private final Matrix4f viewProjMatrix = new Matrix4f();
     private final FloatBuffer myFloatBuffer = BufferUtils.createFloatBuffer(OGL_MATRIX_SIZE);
 
-    // ==========================================================
-    //                 WINDOW + CONTEXT INITIALIZATION
-    // ==========================================================
-    public void initWindow() {
+    // ===================== INIT =====================
+    public void initGLFWindow() {
         glfwSetErrorCallback(errorCallback = GLFWErrorCallback.createPrint(System.err));
         if (!glfwInit()) throw new IllegalStateException("Unable to initialize GLFW");
 
@@ -52,7 +50,6 @@ public class SlWindowManager {
         glfwWindow = glfwCreateWindow(WIN_WIDTH, WIN_HEIGHT, WINDOW_TITLE, NULL, NULL);
         if (glfwWindow == NULL) throw new RuntimeException("Failed to create the GLFW window");
 
-        // ESC to close
         glfwSetKeyCallback(glfwWindow, keyCallback = new GLFWKeyCallback() {
             @Override
             public void invoke(long window, int key, int scancode, int action, int mods) {
@@ -62,7 +59,6 @@ public class SlWindowManager {
             }
         });
 
-        // Resize callback — keep projection aspect-correct
         glfwSetFramebufferSizeCallback(glfwWindow, fbCallback = new GLFWFramebufferSizeCallback() {
             @Override
             public void invoke(long window, int w, int h) {
@@ -70,7 +66,11 @@ public class SlWindowManager {
                     WIN_WIDTH = w;
                     WIN_HEIGHT = h;
                     glViewport(0, 0, WIN_WIDTH, WIN_HEIGHT);
-                    updateProjection();
+
+                    // Aspect-correct ORTHOGRAPHIC PROJECTION
+                    float aspect = (float) WIN_WIDTH / WIN_HEIGHT;
+                    viewProjMatrix.setOrtho(-100f * aspect, 100f * aspect, -100f, 100f, 0f, 10f);
+                    glUniformMatrix4fv(vpMatLocation, false, viewProjMatrix.get(myFloatBuffer));
                 }
             }
         });
@@ -81,22 +81,18 @@ public class SlWindowManager {
         glfwShowWindow(glfwWindow);
     }
 
-    // ==========================================================
-    //                      OPENGL SETUP
-    // ==========================================================
     public void initOpenGL() {
         updateContextToThis();
         GL.createCapabilities();
 
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_CULL_FACE);
-        glEnable(GL_MULTISAMPLE);
         glViewport(0, 0, WIN_WIDTH, WIN_HEIGHT);
         glClearColor(0.043f, 0.380f, 0.588f, 1.0f);
 
-        // ---------------- Shader setup ----------------
         shaderProgram = glCreateProgram();
 
+        // Vertex shader
         int vs = glCreateShader(GL_VERTEX_SHADER);
         glShaderSource(vs,
                 "uniform mat4 viewProjMatrix;" +
@@ -105,10 +101,12 @@ public class SlWindowManager {
                         "  gl_Position = viewProjMatrix * vec4(position, 0.0, 1.0);" +
                         "}");
         glCompileShader(vs);
-        if (glGetShaderi(vs, GL_COMPILE_STATUS) == GL_FALSE)
+        if (glGetShaderi(vs, GL_COMPILE_STATUS) == GL_FALSE) {
             throw new RuntimeException("Vertex shader compile: " + glGetShaderInfoLog(vs));
+        }
         glAttachShader(shaderProgram, vs);
 
+        // Fragment shader
         int fs = glCreateShader(GL_FRAGMENT_SHADER);
         glShaderSource(fs,
                 "uniform vec3 color;" +
@@ -116,31 +114,27 @@ public class SlWindowManager {
                         "  gl_FragColor = vec4(color, 1.0);" +
                         "}");
         glCompileShader(fs);
-        if (glGetShaderi(fs, GL_COMPILE_STATUS) == GL_FALSE)
+        if (glGetShaderi(fs, GL_COMPILE_STATUS) == GL_FALSE) {
             throw new RuntimeException("Fragment shader compile: " + glGetShaderInfoLog(fs));
+        }
         glAttachShader(shaderProgram, fs);
 
         glBindAttribLocation(shaderProgram, 0, "position");
         glLinkProgram(shaderProgram);
-        if (glGetProgrami(shaderProgram, GL_LINK_STATUS) == GL_FALSE)
+        if (glGetProgrami(shaderProgram, GL_LINK_STATUS) == GL_FALSE) {
             throw new RuntimeException("Program link: " + glGetProgramInfoLog(shaderProgram));
-
+        }
         glUseProgram(shaderProgram);
+
         vpMatLocation = glGetUniformLocation(shaderProgram, "viewProjMatrix");
         renderColorLocation = glGetUniformLocation(shaderProgram, "color");
 
-        updateProjection();
-    }
-
-    private void updateProjection() {
+        // Aspect-correct ORTHOGRAPHIC PROJECTION
         float aspect = (float) WIN_WIDTH / WIN_HEIGHT;
         viewProjMatrix.setOrtho(-100f * aspect, 100f * aspect, -100f, 100f, 0f, 10f);
         glUniformMatrix4fv(vpMatLocation, false, viewProjMatrix.get(myFloatBuffer));
     }
 
-    // ==========================================================
-    //                      BUFFER SETUP
-    // ==========================================================
     public void initBuffers() {
         int vao = org.lwjgl.opengl.GL30.glGenVertexArrays();
         org.lwjgl.opengl.GL30.glBindVertexArray(vao);
@@ -160,9 +154,6 @@ public class SlWindowManager {
         glVertexAttribPointer(0, 2, GL_FLOAT, false, 0, 0L);
     }
 
-    // ==========================================================
-    //                     RENDER LOOP + DRAW
-    // ==========================================================
     public void runRenderLoop(Runnable frameCallback) {
         try {
             while (!glfwWindowShouldClose(glfwWindow)) {
@@ -177,10 +168,8 @@ public class SlWindowManager {
     }
 
     public void drawQuad(float[] verts, float[] color) {
-        if (verts == null || verts.length != 8)
-            throw new IllegalArgumentException("verts must be length 8 (4 x vec2)");
-        if (color == null || color.length != 3)
-            throw new IllegalArgumentException("color must be length 3");
+        if (verts == null || verts.length != 8) throw new IllegalArgumentException("verts must be length 8 (4 x vec2)");
+        if (color == null || color.length != 3) throw new IllegalArgumentException("color must be length 3");
 
         org.lwjgl.opengl.GL15.glBindBuffer(org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER, vbo);
         FloatBuffer fb = BufferUtils.createFloatBuffer(verts.length).put(verts).flip();
@@ -190,6 +179,7 @@ public class SlWindowManager {
 
         glUseProgram(shaderProgram);
         glUniform3f(renderColorLocation, color[0], color[1], color[2]);
+
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 2, GL_FLOAT, false, 0, 0L);
 
@@ -197,12 +187,17 @@ public class SlWindowManager {
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0L);
     }
 
-    // ==========================================================
-    //                     CONTEXT + CLEANUP
-    // ==========================================================
-    public void updateContextToThis() { glfwMakeContextCurrent(glfwWindow); }
+    public void updateContextToThis() {
+        glfwMakeContextCurrent(glfwWindow);
+    }
 
-    public boolean isGlfwWindowClosed() { return glfwWindowShouldClose(glfwWindow); }
+    public void swapBuffers() {
+        glfwSwapBuffers(glfwWindow);
+    }
+
+    public boolean isGlfwWindowClosed() {
+        return glfwWindowShouldClose(glfwWindow);
+    }
 
     private void cleanupGLResources() {
         try {
@@ -218,9 +213,6 @@ public class SlWindowManager {
         if (errorCallback != null) glfwSetErrorCallback(null).free();
     }
 
-    // ==========================================================
-    //                         GETTERS
-    // ==========================================================
     public long getWindow() { return glfwWindow; }
     public int getWidth() { return WIN_WIDTH; }
     public int getHeight() { return WIN_HEIGHT; }
