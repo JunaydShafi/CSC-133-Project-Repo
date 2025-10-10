@@ -27,7 +27,6 @@ public class SlWindowManager {
     private GLFWKeyCallback keyCallback;
     private GLFWFramebufferSizeCallback fbCallback;
 
-    // OpenGL / render resources
     private int shaderProgram;
     private int vpMatLocation;
     private int renderColorLocation;
@@ -38,69 +37,40 @@ public class SlWindowManager {
     private final Matrix4f viewProjMatrix = new Matrix4f();
     private final FloatBuffer myFloatBuffer = BufferUtils.createFloatBuffer(OGL_MATRIX_SIZE);
 
-    // ===================== INIT =====================
-    public void initOpenGL() {
-        updateContextToThis();
-        GL.createCapabilities();
+    // ==========================================================
+    //                 WINDOW + CONTEXT INITIALIZATION
+    // ==========================================================
+    public void initWindow() {
+        glfwSetErrorCallback(errorCallback = GLFWErrorCallback.createPrint(System.err));
+        if (!glfwInit()) throw new IllegalStateException("Unable to initialize GLFW");
 
-        glEnable(GL_DEPTH_TEST);
-        glEnable(GL_CULL_FACE);
-        glViewport(0, 0, WIN_WIDTH, WIN_HEIGHT);
-        glClearColor(0.043f, 0.380f, 0.588f, 1.0f);
+        glfwDefaultWindowHints();
+        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+        glfwWindowHint(GLFW_SAMPLES, MSAA_SAMPLES);
 
-        shaderProgram = glCreateProgram();
+        glfwWindow = glfwCreateWindow(WIN_WIDTH, WIN_HEIGHT, WINDOW_TITLE, NULL, NULL);
+        if (glfwWindow == NULL) throw new RuntimeException("Failed to create the GLFW window");
 
-        // Vertex shader
-        int vs = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(vs,
-                "uniform mat4 viewProjMatrix;" +
-                        "attribute vec2 position;" +
-                        "void main(void) {" +
-                        "  gl_Position = viewProjMatrix * vec4(position, 0.0, 1.0);" +
-                        "}");
-        glCompileShader(vs);
-        if (glGetShaderi(vs, GL_COMPILE_STATUS) == GL_FALSE) {
-            throw new RuntimeException("Vertex shader compile: " + glGetShaderInfoLog(vs));
-        }
-        glAttachShader(shaderProgram, vs);
+        // ESC to close
+        glfwSetKeyCallback(glfwWindow, keyCallback = new GLFWKeyCallback() {
+            @Override
+            public void invoke(long window, int key, int scancode, int action, int mods) {
+                if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
+                    glfwSetWindowShouldClose(window, true);
+                }
+            }
+        });
 
-        // Fragment shader
-        int fs = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(fs,
-                "uniform vec3 color;" +
-                        "void main(void) {" +
-                        "  gl_FragColor = vec4(color, 1.0);" +
-                        "}");
-        glCompileShader(fs);
-        if (glGetShaderi(fs, GL_COMPILE_STATUS) == GL_FALSE) {
-            throw new RuntimeException("Fragment shader compile: " + glGetShaderInfoLog(fs));
-        }
-        glAttachShader(shaderProgram, fs);
-
-        glBindAttribLocation(shaderProgram, 0, "position");
-        glLinkProgram(shaderProgram);
-        if (glGetProgrami(shaderProgram, GL_LINK_STATUS) == GL_FALSE) {
-            throw new RuntimeException("Program link: " + glGetProgramInfoLog(shaderProgram));
-        }
-        glUseProgram(shaderProgram);
-
-        vpMatLocation = glGetUniformLocation(shaderProgram, "viewProjMatrix");
-        renderColorLocation = glGetUniformLocation(shaderProgram, "color");
-
-        // Aspect-correct ORTHOGRAPHIC PROJECTION
-        float aspect = (float) WIN_WIDTH / WIN_HEIGHT;
-        viewProjMatrix.setOrtho(-100f * aspect, 100f * aspect, -100f, 100f, 0f, 10f);
-        glUniformMatrix4fv(vpMatLocation, false, viewProjMatrix.get(myFloatBuffer));
-    }
-
-
-    glfwSetFramebufferSizeCallback(glfwWindow, fbCallback = new GLFWFramebufferSizeCallback() {
+        // Resize callback — keep projection aspect-correct
+        glfwSetFramebufferSizeCallback(glfwWindow, fbCallback = new GLFWFramebufferSizeCallback() {
             @Override
             public void invoke(long window, int w, int h) {
                 if (w > 0 && h > 0) {
                     WIN_WIDTH = w;
                     WIN_HEIGHT = h;
                     glViewport(0, 0, WIN_WIDTH, WIN_HEIGHT);
+                    updateProjection();
                 }
             }
         });
@@ -111,35 +81,34 @@ public class SlWindowManager {
         glfwShowWindow(glfwWindow);
     }
 
-    // Call from Driver after initGLFWindow()
+    // ==========================================================
+    //                      OPENGL SETUP
+    // ==========================================================
     public void initOpenGL() {
-        // Make sure context is current
         updateContextToThis();
-        // create GL capabilities
         GL.createCapabilities();
 
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_CULL_FACE);
+        glEnable(GL_MULTISAMPLE);
         glViewport(0, 0, WIN_WIDTH, WIN_HEIGHT);
         glClearColor(0.043f, 0.380f, 0.588f, 1.0f);
 
+        // ---------------- Shader setup ----------------
         shaderProgram = glCreateProgram();
 
-        // Vertex shader (simple position * matrix)
         int vs = glCreateShader(GL_VERTEX_SHADER);
         glShaderSource(vs,
                 "uniform mat4 viewProjMatrix;" +
-                        "attribute vec2 position;" +          // using attribute rather than legacy gl_Vertex
+                        "attribute vec2 position;" +
                         "void main(void) {" +
                         "  gl_Position = viewProjMatrix * vec4(position, 0.0, 1.0);" +
                         "}");
         glCompileShader(vs);
-        if (glGetShaderi(vs, GL_COMPILE_STATUS) == GL_FALSE) {
+        if (glGetShaderi(vs, GL_COMPILE_STATUS) == GL_FALSE)
             throw new RuntimeException("Vertex shader compile: " + glGetShaderInfoLog(vs));
-        }
         glAttachShader(shaderProgram, vs);
 
-        // Fragment shader
         int fs = glCreateShader(GL_FRAGMENT_SHADER);
         glShaderSource(fs,
                 "uniform vec3 color;" +
@@ -147,95 +116,80 @@ public class SlWindowManager {
                         "  gl_FragColor = vec4(color, 1.0);" +
                         "}");
         glCompileShader(fs);
-        if (glGetShaderi(fs, GL_COMPILE_STATUS) == GL_FALSE) {
+        if (glGetShaderi(fs, GL_COMPILE_STATUS) == GL_FALSE)
             throw new RuntimeException("Fragment shader compile: " + glGetShaderInfoLog(fs));
-        }
         glAttachShader(shaderProgram, fs);
 
         glBindAttribLocation(shaderProgram, 0, "position");
         glLinkProgram(shaderProgram);
-        if (glGetProgrami(shaderProgram, GL_LINK_STATUS) == GL_FALSE) {
+        if (glGetProgrami(shaderProgram, GL_LINK_STATUS) == GL_FALSE)
             throw new RuntimeException("Program link: " + glGetProgramInfoLog(shaderProgram));
-        }
-        glUseProgram(shaderProgram);
 
+        glUseProgram(shaderProgram);
         vpMatLocation = glGetUniformLocation(shaderProgram, "viewProjMatrix");
         renderColorLocation = glGetUniformLocation(shaderProgram, "color");
 
-        // Setup orthographic projection the same as your previous driver
-        viewProjMatrix.setOrtho(-100f, 100f, -100f, 100f, 0f, 10f);
+        updateProjection();
+    }
+
+    private void updateProjection() {
+        float aspect = (float) WIN_WIDTH / WIN_HEIGHT;
+        viewProjMatrix.setOrtho(-100f * aspect, 100f * aspect, -100f, 100f, 0f, 10f);
         glUniformMatrix4fv(vpMatLocation, false, viewProjMatrix.get(myFloatBuffer));
     }
 
-public void initBuffers() {
-    int vao = org.lwjgl.opengl.GL30.glGenVertexArrays();
-    org.lwjgl.opengl.GL30.glBindVertexArray(vao);
+    // ==========================================================
+    //                      BUFFER SETUP
+    // ==========================================================
+    public void initBuffers() {
+        int vao = org.lwjgl.opengl.GL30.glGenVertexArrays();
+        org.lwjgl.opengl.GL30.glBindVertexArray(vao);
 
-    vbo = org.lwjgl.opengl.GL15.glGenBuffers();
-    ibo = org.lwjgl.opengl.GL15.glGenBuffers();
+        vbo = org.lwjgl.opengl.GL15.glGenBuffers();
+        ibo = org.lwjgl.opengl.GL15.glGenBuffers();
 
-    final int[] indices = {0, 1, 2, 0, 2, 3};
-    IntBuffer ib = BufferUtils.createIntBuffer(indices.length).put(indices).flip();
-    org.lwjgl.opengl.GL15.glBindBuffer(org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER, ibo);
-    org.lwjgl.opengl.GL15.glBufferData(org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER, ib, org.lwjgl.opengl.GL15.GL_STATIC_DRAW);
+        final int[] indices = {0, 1, 2, 0, 2, 3};
+        IntBuffer ib = BufferUtils.createIntBuffer(indices.length).put(indices).flip();
+        org.lwjgl.opengl.GL15.glBindBuffer(org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER, ibo);
+        org.lwjgl.opengl.GL15.glBufferData(org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER, ib, org.lwjgl.opengl.GL15.GL_STATIC_DRAW);
 
-    org.lwjgl.opengl.GL15.glBindBuffer(org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER, vbo);
-    org.lwjgl.opengl.GL15.glBufferData(org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER, 4 * 2 * Float.BYTES, org.lwjgl.opengl.GL15.GL_DYNAMIC_DRAW);
+        org.lwjgl.opengl.GL15.glBindBuffer(org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER, vbo);
+        org.lwjgl.opengl.GL15.glBufferData(org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER, 4 * 2 * Float.BYTES, org.lwjgl.opengl.GL15.GL_DYNAMIC_DRAW);
 
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, false, 0, 0L);
-}
-
-public void runRenderLoop(Runnable frameCallback) {
-    try {
-        while (!glfwWindowShouldClose(glfwWindow)) {
-            glfwPollEvents();
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            frameCallback.run();
-            glfwSwapBuffers(glfwWindow);
-        }
-    } finally {
-        cleanupGLResources();
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 2, GL_FLOAT, false, 0, 0L);
     }
-}
 
-
-// ===================== RENDER API =====================
-    // The render loop is private. Call runRenderLoop and supply a Runnable that draws each frame.
+    // ==========================================================
+    //                     RENDER LOOP + DRAW
+    // ==========================================================
     public void runRenderLoop(Runnable frameCallback) {
         try {
             while (!glfwWindowShouldClose(glfwWindow)) {
                 glfwPollEvents();
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-                // call the user-supplied per-frame draw logic
                 frameCallback.run();
-
                 glfwSwapBuffers(glfwWindow);
             }
         } finally {
-            // cleanup when loop exits
             cleanupGLResources();
         }
     }
 
-    // Draw a single quad (4 verts), color vector length 3
     public void drawQuad(float[] verts, float[] color) {
-        if (verts == null || verts.length != 8) throw new IllegalArgumentException("verts must be length 8 (4 x vec2)");
-        if (color == null || color.length != 3) throw new IllegalArgumentException("color must be length 3");
+        if (verts == null || verts.length != 8)
+            throw new IllegalArgumentException("verts must be length 8 (4 x vec2)");
+        if (color == null || color.length != 3)
+            throw new IllegalArgumentException("color must be length 3");
 
         org.lwjgl.opengl.GL15.glBindBuffer(org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER, vbo);
         FloatBuffer fb = BufferUtils.createFloatBuffer(verts.length).put(verts).flip();
         org.lwjgl.opengl.GL15.glBufferData(org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER, fb, org.lwjgl.opengl.GL15.GL_DYNAMIC_DRAW);
 
-        // Element buffer
         org.lwjgl.opengl.GL15.glBindBuffer(org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER, ibo);
 
-        // Use shader program and set color
         glUseProgram(shaderProgram);
         glUniform3f(renderColorLocation, color[0], color[1], color[2]);
-
-        // Ensure vertex attribute pointer is enabled and points to buffer
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 2, GL_FLOAT, false, 0, 0L);
 
@@ -243,29 +197,20 @@ public void runRenderLoop(Runnable frameCallback) {
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0L);
     }
 
-    // ===================== CONTEXT helpers =====================
-    public void updateContextToThis() {
-        glfwMakeContextCurrent(glfwWindow);
-    }
+    // ==========================================================
+    //                     CONTEXT + CLEANUP
+    // ==========================================================
+    public void updateContextToThis() { glfwMakeContextCurrent(glfwWindow); }
 
-    public void swapBuffers() {
-        glfwSwapBuffers(glfwWindow);
-    }
+    public boolean isGlfwWindowClosed() { return glfwWindowShouldClose(glfwWindow); }
 
-    public boolean isGlfwWindowClosed() {
-        return glfwWindowShouldClose(glfwWindow);
-    }
-
-    // ===================== CLEANUP =====================
     private void cleanupGLResources() {
-        // delete GL buffers and program
         try {
             if (vbo != 0) org.lwjgl.opengl.GL15.glDeleteBuffers(vbo);
             if (ibo != 0) org.lwjgl.opengl.GL15.glDeleteBuffers(ibo);
             if (shaderProgram != 0) glDeleteProgram(shaderProgram);
         } catch (Exception ignored) {}
 
-        // destroy window and callbacks
         if (keyCallback != null) keyCallback.free();
         if (fbCallback != null) fbCallback.free();
         if (glfwWindow != 0) glfwDestroyWindow(glfwWindow);
@@ -273,7 +218,9 @@ public void runRenderLoop(Runnable frameCallback) {
         if (errorCallback != null) glfwSetErrorCallback(null).free();
     }
 
-    // ===================== GETTERS =====================
+    // ==========================================================
+    //                         GETTERS
+    // ==========================================================
     public long getWindow() { return glfwWindow; }
     public int getWidth() { return WIN_WIDTH; }
     public int getHeight() { return WIN_HEIGHT; }
