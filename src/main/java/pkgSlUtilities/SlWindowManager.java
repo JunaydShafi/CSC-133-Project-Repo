@@ -191,14 +191,6 @@ public class SlWindowManager {
         glfwMakeContextCurrent(glfwWindow);
     }
 
-    public void swapBuffers() {
-        glfwSwapBuffers(glfwWindow);
-    }
-
-    public boolean isGlfwWindowClosed() {
-        return glfwWindowShouldClose(glfwWindow);
-    }
-
     private void cleanupGLResources() {
         try {
             if (vbo != 0) org.lwjgl.opengl.GL15.glDeleteBuffers(vbo);
@@ -213,7 +205,6 @@ public class SlWindowManager {
         if (errorCallback != null) glfwSetErrorCallback(null).free();
     }
 
-    public long getWindow() { return glfwWindow; }
     public int getWidth() { return WIN_WIDTH; }
     public int getHeight() { return WIN_HEIGHT; }
 }

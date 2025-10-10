@@ -51,10 +51,6 @@ public class Driver {
         return squares;
     }
 
-
-
-
-
     private float[] createOffsetSquare(float side, float cx, float cy) {
         float half = side / 2f;
         return new float[]{
