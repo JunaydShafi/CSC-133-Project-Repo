@@ -6,6 +6,8 @@ public class Driver {
     private static final float SQUARE_SIDE = 14;
     private static final float PADDING = 3f;
     private static final float OFFSET = 5f;
+    private static final int ROWS = 11;
+    private static final int COLUMNS = 7;
     private static final float[] SQUARE_COLOR = {0.75f, 0.75f, 0.75f};
 
     SlWindowManager windowManager = new SlWindowManager();
@@ -21,7 +23,7 @@ public class Driver {
         windowManager.initBuffers();
 
         // Generate world-space 4x4 grid (top-left corner)
-        float[][] gridSquares = generateWorldGrid(11, 7, SQUARE_SIDE, PADDING, OFFSET);
+        float[][] gridSquares = generateWorldGrid(ROWS, COLUMNS, SQUARE_SIDE, PADDING, OFFSET);
 
         // run the render loop
         windowManager.runRenderLoop(() -> {

@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9e40f1eb-b7d4-4db3-87a3-355488ffc561" name="Changes" comment="Interim; Incomplete; Compiles;&#10;&#10;the grid draws completly. need cleanup and checkups.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pkgDriver/Driver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pkgDriver/Driver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pkgSlUtilities/SlWindowManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pkgSlUtilities/SlWindowManager.java" afterDir="false" />
-    </list>
+    <list default="true" id="9e40f1eb-b7d4-4db3-87a3-355488ffc561" name="Changes" comment="Final; Code Complete; Runs;&#10;&#10;Fixed most warnings and errors" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -483,7 +479,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760131973186</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Final; Code Complete; Runs;&#10;&#10;Fixed most warnings and errors">
+      <option name="closed" value="true" />
+      <created>1760132552740</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1760132552740</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -512,7 +516,8 @@
     <MESSAGE value="Interim; Incomplete; Does Not Compile;&#10;&#10;rearranged the init buffers have to fix glfwframebuffer" />
     <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;Cleaned up window manager, it was a mess, now need to get the final finishing touches, not working properly." />
     <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;the grid draws completly. need cleanup and checkups." />
-    <option name="LAST_COMMIT_MESSAGE" value="Interim; Incomplete; Compiles;&#10;&#10;the grid draws completly. need cleanup and checkups." />
+    <MESSAGE value="Final; Code Complete; Runs;&#10;&#10;Fixed most warnings and errors" />
+    <option name="LAST_COMMIT_MESSAGE" value="Final; Code Complete; Runs;&#10;&#10;Fixed most warnings and errors" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
