@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9e40f1eb-b7d4-4db3-87a3-355488ffc561" name="Changes" comment="Interim; Incomplete; Compiles;&#10;&#10;All GLFW calls are in window manager and the code compiles and runs with the two origional squares rendering.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pkgDriver/Driver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pkgDriver/Driver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pkgSlUtilities/SlWindowManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pkgSlUtilities/SlWindowManager.java" afterDir="false" />
-    </list>
+    <list default="true" id="9e40f1eb-b7d4-4db3-87a3-355488ffc561" name="Changes" comment="Interim; Incomplete; Does Not Compile;&#10;&#10;fixed the gl window in window manager" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -424,7 +420,39 @@
       <option name="project" value="LOCAL" />
       <updated>1760057561530</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Interim; Incomplete; Does Not Compile;&#10;&#10;Creating grid in driver">
+      <option name="closed" value="true" />
+      <created>1760131138421</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1760131138421</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Interim; Incomplete; Does Not Compile;&#10;&#10;finished grid creator">
+      <option name="closed" value="true" />
+      <created>1760131194016</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1760131194016</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Interim; Incomplete; Does Not Compile;&#10;&#10;finished driver Need to fix the window manager">
+      <option name="closed" value="true" />
+      <created>1760131265858</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1760131265858</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Interim; Incomplete; Does Not Compile;&#10;&#10;fixed the gl window in window manager">
+      <option name="closed" value="true" />
+      <created>1760131318082</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1760131318082</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -446,7 +474,11 @@
     <MESSAGE value="Interim; Incomplete; Does Not Compile;&#10;&#10;Moved GLFW to window Manager" />
     <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;Cleaned up Driver so the program now works!" />
     <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;All GLFW calls are in window manager and the code compiles and runs with the two origional squares rendering." />
-    <option name="LAST_COMMIT_MESSAGE" value="Interim; Incomplete; Compiles;&#10;&#10;All GLFW calls are in window manager and the code compiles and runs with the two origional squares rendering." />
+    <MESSAGE value="Interim; Incomplete; Does Not Compile;&#10;&#10;Creating grid in driver" />
+    <MESSAGE value="Interim; Incomplete; Does Not Compile;&#10;&#10;finished grid creator" />
+    <MESSAGE value="Interim; Incomplete; Does Not Compile;&#10;&#10;finished driver Need to fix the window manager" />
+    <MESSAGE value="Interim; Incomplete; Does Not Compile;&#10;&#10;fixed the gl window in window manager" />
+    <option name="LAST_COMMIT_MESSAGE" value="Interim; Incomplete; Does Not Compile;&#10;&#10;fixed the gl window in window manager" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

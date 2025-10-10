@@ -167,28 +167,40 @@ public class SlWindowManager {
         glUniformMatrix4fv(vpMatLocation, false, viewProjMatrix.get(myFloatBuffer));
     }
 
-    public void initBuffers() {
-        vbo = org.lwjgl.opengl.GL15.glGenBuffers();
-        ibo = org.lwjgl.opengl.GL15.glGenBuffers();
+public void initBuffers() {
+    int vao = org.lwjgl.opengl.GL30.glGenVertexArrays();
+    org.lwjgl.opengl.GL30.glBindVertexArray(vao);
 
-        final int[] indices = {0, 1, 2, 0, 2, 3};
-        IntBuffer ib = BufferUtils.createIntBuffer(indices.length).put(indices).flip();
+    vbo = org.lwjgl.opengl.GL15.glGenBuffers();
+    ibo = org.lwjgl.opengl.GL15.glGenBuffers();
 
-        org.lwjgl.opengl.GL15.glBindBuffer(org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER, ibo);
-        org.lwjgl.opengl.GL15.glBufferData(org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER, ib, org.lwjgl.opengl.GL15.GL_STATIC_DRAW);
+    final int[] indices = {0, 1, 2, 0, 2, 3};
+    IntBuffer ib = BufferUtils.createIntBuffer(indices.length).put(indices).flip();
+    org.lwjgl.opengl.GL15.glBindBuffer(org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER, ibo);
+    org.lwjgl.opengl.GL15.glBufferData(org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER, ib, org.lwjgl.opengl.GL15.GL_STATIC_DRAW);
 
-        // Reserve space for 4 verts * 2 components * 4 bytes (float)
-        org.lwjgl.opengl.GL15.glBindBuffer(org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER, vbo);
-        org.lwjgl.opengl.GL15.glBufferData(org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER, 4 * 2 * Float.BYTES, org.lwjgl.opengl.GL15.GL_DYNAMIC_DRAW);
+    org.lwjgl.opengl.GL15.glBindBuffer(org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER, vbo);
+    org.lwjgl.opengl.GL15.glBufferData(org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER, 4 * 2 * Float.BYTES, org.lwjgl.opengl.GL15.GL_DYNAMIC_DRAW);
 
-        // Enable attribute 0 (position) - compatible with glVertexAttribPointer later
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 2, GL_FLOAT, false, 0, 0L);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, false, 0, 0L);
+}
 
-        // Ensure element array is bound while drawing (we rebind before draw)
+public void runRenderLoop(Runnable frameCallback) {
+    try {
+        while (!glfwWindowShouldClose(glfwWindow)) {
+            glfwPollEvents();
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            frameCallback.run();
+            glfwSwapBuffers(glfwWindow);
+        }
+    } finally {
+        cleanupGLResources();
     }
+}
 
-    // ===================== RENDER API =====================
+
+// ===================== RENDER API =====================
     // The render loop is private. Call runRenderLoop and supply a Runnable that draws each frame.
     public void runRenderLoop(Runnable frameCallback) {
         try {
