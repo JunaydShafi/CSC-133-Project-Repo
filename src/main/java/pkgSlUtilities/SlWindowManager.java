@@ -134,28 +134,24 @@ public class SlWindowManager {
     }
 
     public void initBuffers() {
-        // === Create VAO ===
-        int vao = org.lwjgl.opengl.GL30.glGenVertexArrays();
-        org.lwjgl.opengl.GL30.glBindVertexArray(vao);
-
         vbo = org.lwjgl.opengl.GL15.glGenBuffers();
         ibo = org.lwjgl.opengl.GL15.glGenBuffers();
 
-        // index data
         final int[] indices = {0, 1, 2, 0, 2, 3};
         IntBuffer ib = BufferUtils.createIntBuffer(indices.length).put(indices).flip();
+
         org.lwjgl.opengl.GL15.glBindBuffer(org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER, ibo);
         org.lwjgl.opengl.GL15.glBufferData(org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER, ib, org.lwjgl.opengl.GL15.GL_STATIC_DRAW);
 
-        // vertex data (4 verts * 2 floats)
+        // Reserve space for 4 verts * 2 components * 4 bytes (float)
         org.lwjgl.opengl.GL15.glBindBuffer(org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER, vbo);
         org.lwjgl.opengl.GL15.glBufferData(org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER, 4 * 2 * Float.BYTES, org.lwjgl.opengl.GL15.GL_DYNAMIC_DRAW);
 
-        // === Attribute setup ===
+        // Enable attribute 0 (position) - compatible with glVertexAttribPointer later
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 2, GL_FLOAT, false, 0, 0L);
 
-        // keep VAO bound so drawQuad works
+        // Ensure element array is bound while drawing (we rebind before draw)
     }
 
     // ===================== RENDER API =====================
