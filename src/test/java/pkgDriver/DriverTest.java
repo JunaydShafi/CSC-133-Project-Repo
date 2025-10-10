@@ -9,7 +9,7 @@ public class DriverTest {
 
     private static void testCreateSquare() {
         Driver driver = new Driver();
-        float[] square = driver.createSquare(0f, 0f, 10f);
+        float[] square = driver.createSquare(0f, 0f, 10f);// the funct is not private in driver so cannot use this anymore
 
         assert square.length == 8 : "Square length should be 8";
         assert square[0] == -5f : "Top-left X should be -5";
