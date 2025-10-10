@@ -4,7 +4,9 @@ import pkgSlUtilities.SlWindowManager;
 import org.lwjgl.BufferUtils;
 
 public class Driver {
-    private static final float SQUARE_SIDE = 40f;
+    private static final float SQUARE_SIDE = 14;
+    private static final float PADDING = 3f;
+    private static final float OFFSET = 5f;
     private static final float[] SQUARE_COLOR = {0.75f, 0.75f, 0.75f};
 
     SlWindowManager windowManager = new SlWindowManager();
@@ -41,14 +43,22 @@ public class Driver {
         // After loop exits, resources already cleaned by windowManager
     }
 
+    private float[][] generateWorldGrid(int rows, int cols, float squareLength, float padding, float offset)
+    {
+
+    }
+
+    // helper same as your previous createOffsetSquare (keeps Driver simple)
     // helper same as your previous createOffsetSquare (keeps Driver simple)
     private float[] createOffsetSquare(float side, float cx, float cy) {
         float half = side / 2f;
         return new float[]{
-                cx - half, cy - half,   // bottom-left
-                cx + half, cy - half,   // bottom-right
-                cx + half, cy + half,   // top-right
-                cx - half, cy + half    // top-left
+                cx - half, cy - half,
+                cx + half, cy - half,
+                cx + half, cy + half,
+                cx - half, cy + half
         };
     }
+
+
 }
