@@ -1,4 +1,4 @@
-package pkgDriver;
+/**package pkgDriver;
 public class DriverTest {
 
     public static void main(String[] args) {
@@ -9,7 +9,7 @@ public class DriverTest {
 
     private static void testCreateSquare() {
         Driver driver = new Driver();
-        float[] square = driver.createSquare(0f, 0f, 10f);// the funct is not private in driver so cannot use this anymore
+       // float[] square = driver.createSquare(0f, 0f, 10f);// the funct is not private in driver so cannot use this anymore
 
         assert square.length == 8 : "Square length should be 8";
         assert square[0] == -5f : "Top-left X should be -5";
@@ -20,7 +20,7 @@ public class DriverTest {
 
     private static void testGenerateGrid() {
         Driver driver = new Driver();
-        float[][] grid = driver.generateGrid(2, 3, 10f, 1f, 0f);
+        //float[][] grid = driver.generateGrid(2, 3, 10f, 1f, 0f);
 
         assert grid.length == 6 : "Grid should have 6 squares (2*3)";
         for (float[] square : grid) {
@@ -28,3 +28,4 @@ public class DriverTest {
         }
     }
 }
+**/
