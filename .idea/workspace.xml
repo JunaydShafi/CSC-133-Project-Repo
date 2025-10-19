@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9e40f1eb-b7d4-4db3-87a3-355488ffc561" name="Changes" comment="Final; Code Complete; Runs;&#10;&#10;Singelton Window Manager and no magic nums">
-      <change afterPath="$PROJECT_DIR$/src/test/java/pkgDriver/DriverTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/pkgSlUtilities/WindowManagerTestULT.java" afterDir="false" />
+    <list default="true" id="9e40f1eb-b7d4-4db3-87a3-355488ffc561" name="Changes" comment="Final; Code Complete; Runs;&#10;&#10;Ready to submit! Final Version">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.run/ASSIGNMENT_1.run.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.run/ASSIGNMENT_1.run.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,10 +102,12 @@
     "Gradle.ASSIGNMENT_1 [:pkgDriver.Driver.main()].executor": "Run",
     "Gradle.ASSIGNMENT_3Now [:pkgDriver.Driver.main()].executor": "Run",
     "Gradle.ASSIGNMENT_3Now [:pkgTTTBackend.SlIOManagerTest.main()].executor": "Run",
+    "Gradle.ASSIGNMENT_4 [:pkgDriver.Driver.main()].executor": "Run",
     "Gradle.Assignment_7Solution [:Main.main()].executor": "Run",
     "Gradle.Assignment_7_Solution [:Main.main()].executor": "Run",
     "Gradle.Assignment_7_SolutionFlyingMario [:Main.main()].executor": "Run",
     "Gradle.Build ASSIGNMENT_3Now.executor": "Run",
+    "Gradle.Build ASSIGNMENT_4.executor": "Run",
     "Gradle.Build RabbitsWolves.executor": "Run",
     "Gradle.Download Sources.executor": "Run",
     "Gradle.RabbitsWolves [:pkgDriver.Driver.main()].executor": "Run",
@@ -124,7 +125,7 @@
     "ignore.virus.scanning.warn.message": "true",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/jeoju/Documents/Second Semester Fall 2025/CSC 133 Object Oriented Graph/ASSIGNMENT_3Now",
+    "last_opened_file_path": "C:/Users/jeoju/Documents/Second Semester Fall 2025/CSC 133 Object Oriented Graph/ASSIGNMENT_4",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -513,7 +514,31 @@
       <option name="project" value="LOCAL" />
       <updated>1760134130531</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Final; Code Complete; Runs;&#10;&#10;Ready to submit!">
+      <option name="closed" value="true" />
+      <created>1760135923183</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1760135923183</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Final; Code Complete; Runs;&#10;&#10;Ready to submit!">
+      <option name="closed" value="true" />
+      <created>1760135955011</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1760135955011</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Final; Code Complete; Runs;&#10;&#10;Ready to submit! Final Version">
+      <option name="closed" value="true" />
+      <created>1760136042657</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1760136042657</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -545,7 +570,9 @@
     <MESSAGE value="Final; Code Complete; Runs;&#10;&#10;Fixed most warnings and errors" />
     <MESSAGE value="Final; Code Complete; Runs;&#10;&#10;Code Cleanup" />
     <MESSAGE value="Final; Code Complete; Runs;&#10;&#10;Singelton Window Manager and no magic nums" />
-    <option name="LAST_COMMIT_MESSAGE" value="Final; Code Complete; Runs;&#10;&#10;Singelton Window Manager and no magic nums" />
+    <MESSAGE value="Final; Code Complete; Runs;&#10;&#10;Ready to submit!" />
+    <MESSAGE value="Final; Code Complete; Runs;&#10;&#10;Ready to submit! Final Version" />
+    <option name="LAST_COMMIT_MESSAGE" value="Final; Code Complete; Runs;&#10;&#10;Ready to submit! Final Version" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
