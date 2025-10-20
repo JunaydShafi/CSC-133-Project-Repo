@@ -64,7 +64,7 @@ test {
 }
 
 application {
-    mainClass = 'pkgCSC133.Driver'
+    mainClass = 'pkgDriver.Driver'
 }
 
 if (VERBOSE_MODE) {
