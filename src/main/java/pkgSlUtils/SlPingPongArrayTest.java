@@ -89,5 +89,14 @@ public class SlPingPongArrayTest {
         return returnTestResult(testLabel, retVal);
     }  //  private static boolean ULT_202(...)
 
+    public static void main(String[] args) {
+        System.out.println("Running SlPingPongArray Tests...\n");
+
+        ULT_200();
+        ULT_220();
+        ULT_240();
+
+        System.out.println("\nAll tests complete.");
+    }
 }  //  class SlPingPongArrayTest
 
