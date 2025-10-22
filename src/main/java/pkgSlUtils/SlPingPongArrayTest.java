@@ -10,30 +10,33 @@ public class SlPingPongArrayTest {
         boolean retVal = false;
         int myRows = 20, myCols = 20;
         SlPingPongArray myPPA = new SlPingPongArray(myRows, myCols, 0, 0, 77);
+
+        // Fill nextCellArray with sequential numbers
         for (int row = 0; row < myRows; ++row) {
             for (int col = 0; col < myCols; ++col) {
                 myPPA.nextCellArray.arrayData[row][col] = row * myCols + col;
-            }  //  for(int col = 0; col < myPPA.NUM_COLS; ++col)
-        }  //  for(int row = 0; row < myPPA.NUM_ROWS; ++row)
-        myPPA.swapLiveAndNext();
+            }
+        }
+        myPPA.swapLiveAndNext();  // move initial data to live
 
         if (ULT_DEBUG) {
-            System.out.println("Before randomization: ");
+            System.out.println("Before randomization:");
             myPPA.printArray();
-        }  //  if (ULT_DEBUG)
+        }
+
         final int maxTrials = 10;
         for (int trialNum = 0; trialNum < maxTrials; ++trialNum) {
-            myPPA.randomizeViaFisherYatesKnuth();
-            myPPA.swapLiveAndNext();
+            myPPA.randomizeViaFisherYatesKnuth(); // shuffle and swap internally
             if (ULT_DEBUG) {
-                System.out.println("\nAfter randomization : " + trialNum);
+                System.out.println("\nAfter randomization - Trial " + (trialNum + 1) + ":");
                 myPPA.printArray();
-            }  //  if (ULT_DEBUG)
+            }
+        }
 
-        }  //  for(int trialNum = 0; trialNum < maxTrials; ++trialNum)
         retVal = true;
         return returnTestResult("ULT_200", retVal);
-    }  //  private static boolean ULT_1(...)
+    }
+    //  private static boolean ULT_1(...)
 
     // Reading data from file
     public static boolean ULT_220() {
