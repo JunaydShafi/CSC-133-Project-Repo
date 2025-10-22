@@ -78,12 +78,12 @@ public class SlPingPongArray {
         for (int dr = -1; dr <= 1; dr++) {
             for (int dc = -1; dc <= 1; dc++) {
                 if (dr == 0 && dc == 0) continue;
-                int r = row + dr, c = col + dc;
-                if (r >= 0 && r < NUM_ROWS && c >= 0 && c < NUM_COLS) {
-                    sum += liveCellArray.arrayData[r][c];
-                }
+                int r = (row + dr + NUM_ROWS) % NUM_ROWS;
+                int c = (col + dc + NUM_COLS) % NUM_COLS;
+                sum += liveCellArray.arrayData[r][c];
             }
         }
         return sum;
     }
+
 }
