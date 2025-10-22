@@ -41,15 +41,29 @@ public class SlPingPongArray {
 
     public void randomizeViaFisherYatesKnuth() {
         int total = NUM_ROWS * NUM_COLS;
+
+        // Step 1: Copy live array into next array
+        for (int r = 0; r < NUM_ROWS; r++) {
+            for (int c = 0; c < NUM_COLS; c++) {
+                nextCellArray.arrayData[r][c] = liveCellArray.arrayData[r][c];
+            }
+        }
+
+        // Step 2: Fisher-Yates shuffle
         for (int i = total - 1; i > 0; i--) {
             int j = rand.nextInt(i + 1);
             int r1 = i / NUM_COLS, c1 = i % NUM_COLS;
             int r2 = j / NUM_COLS, c2 = j % NUM_COLS;
+
             int temp = nextCellArray.arrayData[r1][c1];
             nextCellArray.arrayData[r1][c1] = nextCellArray.arrayData[r2][c2];
             nextCellArray.arrayData[r2][c2] = temp;
         }
+
+        // Step 3: Swap for next pass
+        swapLiveAndNext();
     }
+
 
     public void loadFile(String filename) {
         liveCellArray.loadFile(filename);
