@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9e40f1eb-b7d4-4db3-87a3-355488ffc561" name="Changes" comment="Interm; Code Testing; Compiles;&#10;&#10;Randomisating Fixed YESSSS">
-      <change afterPath="$PROJECT_DIR$/src/test/java/pkgDriver/driverULT.java" afterDir="false" />
+    <list default="true" id="9e40f1eb-b7d4-4db3-87a3-355488ffc561" name="Changes" comment="Interm; Code Testing; not Compiles;&#10;&#10;Changing folder setup">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pkgSlUtils/SlPingPongArrayTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pkgSlUtils/SlPingPongArrayTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pkgSlUtils/SlPingPongArrayTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pkgDriver/SlPingPongArrayTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -166,8 +165,8 @@
       </method>
     </configuration>
     <configuration name="SlPingPongArrayTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="pkgSlUtils.SlPingPongArrayTest" />
-      <module name="ASSIGNMENT_4.main" />
+      <option name="MAIN_CLASS_NAME" value="pkgDriver.SlPingPongArrayTest" />
+      <module name="ASSIGNMENT_4.test" />
       <option name="VM_PARAMETERS" value="--add-opens java.base/java.lang=ALL-UNNAMED --enable-native-access=ALL-UNNAMED --sun-misc-unsafe-memory-access=allow" />
       <extension name="coverage">
         <pattern>
@@ -632,7 +631,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761176020768</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Interm; Code Testing; not Compiles;&#10;&#10;Changing folder setup">
+      <option name="closed" value="true" />
+      <created>1761419628334</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1761419628334</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -650,7 +657,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;All folders and pkg files are ready for population" />
     <MESSAGE value="Interim; Incomplete; Does Not Compile;&#10;&#10;Moved GLFW to window Manager" />
     <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;Cleaned up Driver so the program now works!" />
     <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;All GLFW calls are in window manager and the code compiles and runs with the two origional squares rendering." />
@@ -675,7 +681,8 @@
     <MESSAGE value="Interm; Code Testing; Compiles;&#10;&#10;Fixed SwappingArray Bug" />
     <MESSAGE value="Interm; Code Testing; Compiles;&#10;&#10;get NN wrap around" />
     <MESSAGE value="Interm; Code Testing; Compiles;&#10;&#10;Randomisating Fixed YESSSS" />
-    <option name="LAST_COMMIT_MESSAGE" value="Interm; Code Testing; Compiles;&#10;&#10;Randomisating Fixed YESSSS" />
+    <MESSAGE value="Interm; Code Testing; not Compiles;&#10;&#10;Changing folder setup" />
+    <option name="LAST_COMMIT_MESSAGE" value="Interm; Code Testing; not Compiles;&#10;&#10;Changing folder setup" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
