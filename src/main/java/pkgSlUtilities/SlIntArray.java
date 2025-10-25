@@ -1,4 +1,4 @@
-package pkgSlUtils;
+package pkgSlUtilities;
 
 import java.io.*;
 import java.util.Arrays;

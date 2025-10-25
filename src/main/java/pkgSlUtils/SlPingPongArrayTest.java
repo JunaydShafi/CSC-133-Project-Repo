@@ -1,5 +1,7 @@
 package pkgSlUtils;
 
+import pkgSlUtilities.SlPingPongArray;
+
 import static pkgDriver.ULTResult.*;
 
 public class SlPingPongArrayTest {
@@ -42,7 +44,7 @@ public class SlPingPongArrayTest {
     public static boolean ULT_220() {
         boolean retVal = true;
         SlPingPongArray myPPA = new SlPingPongArray(7, 7);
-        myPPA.nextCellArray.loadFile("C:\\Users\\jeoju\\Documents\\Second Semester Fall 2025\\CSC 133 Object Oriented Graph\\ASSIGNMENT_4\\ult_input_1.txt");
+        myPPA.nextCellArray.loadFile("C:\\Users\\jeoju\\Documents\\Second Semester Fall 2025\\CSC 133 Object Oriented Graph\\ASSIGNMENT_4\\ult_input_2.txt");
 
         myPPA.swapLiveAndNext();
         if (ULT_DEBUG) {
