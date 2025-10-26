@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9e40f1eb-b7d4-4db3-87a3-355488ffc561" name="Changes" comment="Interm; Code Testing; Compiles;&#10;&#10;FOLDER struct complete">
-      <change afterPath="$PROJECT_DIR$/src/main/java/pkgSlUtilities/SlRandomArray.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pkgDriver/SlSpot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pkgSlUtilities/SlSpot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pkgSlUtilities/SlIntArray.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pkgSlUtilities/SlIntArray.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pkgSlUtilities/SlPingPongArray.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pkgSlUtilities/SlPingPongArray.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/pkgDriver/SlPingPongArrayTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pkgSlUtilities/SlPingPongArrayTest.java" afterDir="false" />
-    </list>
+    <list default="true" id="9e40f1eb-b7d4-4db3-87a3-355488ffc561" name="Changes" comment="Interm; Code Testing; Compiles;&#10;&#10;code Working added ULT's" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -661,7 +654,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761420019313</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Interm; Code Testing; Compiles;&#10;&#10;code Working added ULT's">
+      <option name="closed" value="true" />
+      <created>1761515910724</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1761515910724</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -679,7 +680,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;All GLFW calls are in window manager and the code compiles and runs with the two origional squares rendering." />
     <MESSAGE value="Interim; Incomplete; Does Not Compile;&#10;&#10;Creating grid in driver" />
     <MESSAGE value="Interim; Incomplete; Does Not Compile;&#10;&#10;finished grid creator" />
     <MESSAGE value="Interim; Incomplete; Does Not Compile;&#10;&#10;finished driver Need to fix the window manager" />
@@ -704,7 +704,8 @@
     <MESSAGE value="Interm; Code Testing; not Compiles;&#10;&#10;Changing folder setup" />
     <MESSAGE value="Interm; Code Testing; not Compiles;&#10;&#10;Moving test pingpong" />
     <MESSAGE value="Interm; Code Testing; Compiles;&#10;&#10;FOLDER struct complete" />
-    <option name="LAST_COMMIT_MESSAGE" value="Interm; Code Testing; Compiles;&#10;&#10;FOLDER struct complete" />
+    <MESSAGE value="Interm; Code Testing; Compiles;&#10;&#10;code Working added ULT's" />
+    <option name="LAST_COMMIT_MESSAGE" value="Interm; Code Testing; Compiles;&#10;&#10;code Working added ULT's" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -7,15 +7,16 @@ public class SlPingPongArray extends SlIntArray {
     public SlIntArray nextCellArray;
     private Random rand;
 
+    // Keep old constructors for test compatibility
     public SlPingPongArray(int rows, int cols) {
         this(rows, cols, 0, 0, (int) System.currentTimeMillis());
     }
 
     public SlPingPongArray(int rows, int cols, int x, int y, int seed) {
         super(rows, cols);
-        rand = new Random(seed);
         liveCellArray = new SlIntArray(rows, cols);
         nextCellArray = new SlIntArray(rows, cols);
+        rand = new Random(seed);
     }
 
     public void swapLiveAndNext() {
@@ -26,19 +27,11 @@ public class SlPingPongArray extends SlIntArray {
 
     @Override
     public int[][] loadFile(String dataFile) {
-        // Load data into nextCellArray (write array)
-        int[][] loaded = nextCellArray.loadFile(dataFile);
-
-        // Keep dimensions consistent
+        nextCellArray.loadFile(dataFile);
         NUM_ROWS = nextCellArray.NUM_ROWS;
         NUM_COLS = nextCellArray.NUM_COLS;
-
-        // Return a clone for test validation
         return nextCellArray.getClone();
     }
-
-
-
 
     public void printArray() {
         for (int r = 0; r < NUM_ROWS; r++) {
@@ -53,12 +46,11 @@ public class SlPingPongArray extends SlIntArray {
     public void randomizeViaFisherYatesKnuth() {
         int total = NUM_ROWS * NUM_COLS;
 
-        for (int r = 0; r < NUM_ROWS; r++) {
-            for (int c = 0; c < NUM_COLS; c++) {
-                nextCellArray.arrayData[r][c] = liveCellArray.arrayData[r][c];
-            }
-        }
+        // Copy live to next
+        for (int r = 0; r < NUM_ROWS; r++)
+            System.arraycopy(liveCellArray.arrayData[r], 0, nextCellArray.arrayData[r], 0, NUM_COLS);
 
+        // Shuffle
         for (int i = total - 1; i > 0; i--) {
             int j = rand.nextInt(i + 1);
             int r1 = i / NUM_COLS, c1 = i % NUM_COLS;
