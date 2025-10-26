@@ -1,6 +1,4 @@
-package pkgDriver;
-
-import pkgSlUtilities.SlPingPongArray;
+package pkgSlUtilities;
 
 import static pkgDriver.ULTResult.*;
 
@@ -44,7 +42,7 @@ public class SlPingPongArrayTest {
     public static boolean ULT_220() {
         boolean retVal = true;
         SlPingPongArray myPPA = new SlPingPongArray(7, 7);
-        myPPA.nextCellArray.loadFile("C:\\Users\\jeoju\\Documents\\Second Semester Fall 2025\\CSC 133 Object Oriented Graph\\ASSIGNMENT_4\\ult_input_2.txt");
+        myPPA.nextCellArray.loadFile("src/ult_input_1.txt");
 
         myPPA.swapLiveAndNext();
         if (ULT_DEBUG) {
@@ -78,7 +76,8 @@ public class SlPingPongArrayTest {
         boolean retVal = false;
         String testLabel = "ULT_240";
         SlPingPongArray myPPA = new SlPingPongArray(7, 7);
-        myPPA.loadFile("ult_input_2.txt");
+        myPPA.loadFile("src/ult_input_2.txt");
+
         System.out.println("Input array:");
         myPPA.printArray();
 
@@ -95,12 +94,61 @@ public class SlPingPongArrayTest {
         return returnTestResult(testLabel, retVal);
     }  //  private static boolean ULT_202(...)
 
+    public static boolean ULT_221() {
+        boolean retVal = true;
+        System.out.println("\nRunning diagnostic ULT_221 on ult_input_2.txt...");
+        SlPingPongArray myPPA = new SlPingPongArray(7, 7);
+        myPPA.nextCellArray.loadFile("src\\ult_input_1.txt");
+
+
+        myPPA.swapLiveAndNext();
+
+        System.out.println("Loaded data:");
+        myPPA.printArray();
+
+        int[][] validationData = {
+                {1, 1, 0, 1, 0, 1, 9},
+                {9, 1, 1, 0, 0, 1, 1},
+                {1, 2, 3, 4, 5, 6, 7},
+                {9, 9, 9, 0, 1, 9, 9},
+                {9, 9, 9, 9, 1, 1, 1},
+                {9, 9, 9, 9, 9, 1, 0},
+                {9, 9, 9, 9, 9, 9, 0}
+        };
+
+        // Compare with validationData
+        for (int r = 0; r < validationData.length; r++) {
+            for (int c = 0; c < validationData[0].length; c++) {
+                int got = myPPA.liveCellArray.arrayData[r][c];
+                int exp = validationData[r][c];
+                if (got != exp) {
+                    retVal = false;
+                    System.out.printf("Mismatch at [%d][%d]: expected %d, got %d%n", r, c, exp, got);
+                }
+            }
+        }
+
+        return returnTestResult("ULT_221", retVal);
+    }
+
+    public static void testLoadFile(String inputFile) {
+        SlPingPongArray myPPA = new SlPingPongArray(7, 7);
+        myPPA.nextCellArray.loadFile(inputFile);
+        myPPA.swapLiveAndNext();
+
+        System.out.println("\nLoaded array from " + inputFile + ":");
+        myPPA.printArray();
+    }
+
     public static void main(String[] args) {
         System.out.println("Running SlPingPongArray Tests...\n");
 
         ULT_200();
         ULT_220();
         ULT_240();
+        ULT_221();
+        testLoadFile("src/ult_input_1.txt");
+        testLoadFile("src/ult_input_2.txt");//test if loading file works
 
         System.out.println("\nAll tests complete.");
     }

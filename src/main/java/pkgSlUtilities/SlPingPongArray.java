@@ -2,21 +2,17 @@ package pkgSlUtilities;
 
 import java.util.Random;
 
-public class SlPingPongArray {
-    public int NUM_ROWS;
-    public int NUM_COLS;
+public class SlPingPongArray extends SlIntArray {
     public SlIntArray liveCellArray;
     public SlIntArray nextCellArray;
     private Random rand;
 
-    // Constructors
     public SlPingPongArray(int rows, int cols) {
         this(rows, cols, 0, 0, (int) System.currentTimeMillis());
     }
 
     public SlPingPongArray(int rows, int cols, int x, int y, int seed) {
-        NUM_ROWS = rows;
-        NUM_COLS = cols;
+        super(rows, cols);
         rand = new Random(seed);
         liveCellArray = new SlIntArray(rows, cols);
         nextCellArray = new SlIntArray(rows, cols);
@@ -27,6 +23,22 @@ public class SlPingPongArray {
         liveCellArray = nextCellArray;
         nextCellArray = temp;
     }
+
+    @Override
+    public int[][] loadFile(String dataFile) {
+        // Load data into nextCellArray (write array)
+        int[][] loaded = nextCellArray.loadFile(dataFile);
+
+        // Keep dimensions consistent
+        NUM_ROWS = nextCellArray.NUM_ROWS;
+        NUM_COLS = nextCellArray.NUM_COLS;
+
+        // Return a clone for test validation
+        return nextCellArray.getClone();
+    }
+
+
+
 
     public void printArray() {
         for (int r = 0; r < NUM_ROWS; r++) {
@@ -41,14 +53,12 @@ public class SlPingPongArray {
     public void randomizeViaFisherYatesKnuth() {
         int total = NUM_ROWS * NUM_COLS;
 
-        // Step 1: Copy live array into next array
         for (int r = 0; r < NUM_ROWS; r++) {
             for (int c = 0; c < NUM_COLS; c++) {
                 nextCellArray.arrayData[r][c] = liveCellArray.arrayData[r][c];
             }
         }
 
-        // Step 2: Fisher-Yates shuffle
         for (int i = total - 1; i > 0; i--) {
             int j = rand.nextInt(i + 1);
             int r1 = i / NUM_COLS, c1 = i % NUM_COLS;
@@ -59,13 +69,7 @@ public class SlPingPongArray {
             nextCellArray.arrayData[r2][c2] = temp;
         }
 
-        // Step 3: Swap for next pass
         swapLiveAndNext();
-    }
-
-
-    public void loadFile(String filename) {
-        liveCellArray.loadFile(filename);
     }
 
     public void setCell(int row, int col, int val) {
@@ -84,5 +88,4 @@ public class SlPingPongArray {
         }
         return sum;
     }
-
 }
