@@ -4,9 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9e40f1eb-b7d4-4db3-87a3-355488ffc561" name="Changes" comment="Complete; Code Complete; Final;&#10;&#10;ready to submit!">
+    <list default="true" id="9e40f1eb-b7d4-4db3-87a3-355488ffc561" name="Changes" comment="Interim; Incomplete; Compiles;&#10;&#10;Folder update">
+      <change afterPath="$PROJECT_DIR$/src/main/java/pkgSlRenderEngine/SlCARenderer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pkgSlRenderEngine/SlCamera.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pkgSlRenderEngine/SlRenderer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pkgSlRenderEngine/SlShaderObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pkgSlRenderEngine/SlSopt.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pkgSlUtilities/SlGoLArray.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pkgSlUtilities/SlRCPair.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pkgSlUtilities/SlTime.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.run/ASSIGNMENT_1.run.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.run/ASSIGNMENT_1.run.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +47,7 @@
       <list>
         <option value="JUnit5 Test Class" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -107,12 +115,14 @@
     "Gradle.ASSIGNMENT_4 [:pkgSlUtilities.SlPingPongArrayTest.main()].executor": "Run",
     "Gradle.ASSIGNMENT_4 [:pkgSlUtils.SlPingPongArrayTest.main()].executor": "Run",
     "Gradle.ASSIGNMENT_5 [:pkgDriver.Driver.main()].executor": "Run",
+    "Gradle.ASSIGNMENT_5 [:pkgSlRenderEngine.SlRenderer.main()].executor": "Run",
     "Gradle.ASSIGNMENT_5 [:pkgSlUtilities.SlPingPongArrayTest.main()].executor": "Run",
     "Gradle.Assignment_7Solution [:Main.main()].executor": "Run",
     "Gradle.Assignment_7_Solution [:Main.main()].executor": "Run",
     "Gradle.Assignment_7_SolutionFlyingMario [:Main.main()].executor": "Run",
     "Gradle.Build ASSIGNMENT_3Now.executor": "Run",
     "Gradle.Build ASSIGNMENT_4.executor": "Run",
+    "Gradle.Build ASSIGNMENT_5.executor": "Run",
     "Gradle.Build RabbitsWolves.executor": "Run",
     "Gradle.Download Sources.executor": "Run",
     "Gradle.RabbitsWolves [:pkgDriver.Driver.main()].executor": "Run",
@@ -126,7 +136,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "git-widget-placeholder": "Assignment3",
+    "git-widget-placeholder": "Assignment5",
     "ignore.virus.scanning.warn.message": "true",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
@@ -154,7 +164,7 @@
       <recent name="pkgTilesManager" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.ASSIGNMENT_1">
+  <component name="RunManager" selected="Application.SlRenderer">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="Assignment_7_Solution" />
       <method v="2">
@@ -174,7 +184,20 @@
       <option name="VM_PARAMETERS" value="--add-opens java.base/java.lang=ALL-UNNAMED --enable-native-access=ALL-UNNAMED --sun-misc-unsafe-memory-access=allow" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="pkgSlUtilities.*" />
+          <option name="PATTERN" value="pkgDriver.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SlRenderer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="pkgSlRenderEngine.SlRenderer" />
+      <module name="ASSIGNMENT_5.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pkgSlRenderEngine.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -198,10 +221,12 @@
     <list>
       <item itemvalue="Application.ASSIGNMENT_1" />
       <item itemvalue="Application.ULT_TEST" />
+      <item itemvalue="Application.SlRenderer" />
       <item itemvalue="Application.SlPingPongArrayTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.SlRenderer" />
         <item itemvalue="Application.SlPingPongArrayTest" />
       </list>
     </recent_temporary>
@@ -675,7 +700,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761516555648</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="Interim; Incomplete; Compiles;&#10;&#10;Folder update">
+      <option name="closed" value="true" />
+      <created>1761778120102</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1761778120102</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -693,7 +726,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Interim; Incomplete; Does Not Compile;&#10;&#10;finished grid creator" />
     <MESSAGE value="Interim; Incomplete; Does Not Compile;&#10;&#10;finished driver Need to fix the window manager" />
     <MESSAGE value="Interim; Incomplete; Does Not Compile;&#10;&#10;fixed the gl window in window manager" />
     <MESSAGE value="Interim; Incomplete; Does Not Compile;&#10;&#10;rearranged the init buffers have to fix glfwframebuffer" />
@@ -718,7 +750,8 @@
     <MESSAGE value="Interm; Code Testing; Compiles;&#10;&#10;FOLDER struct complete" />
     <MESSAGE value="Interm; Code Testing; Compiles;&#10;&#10;code Working added ULT's" />
     <MESSAGE value="Complete; Code Complete; Final;&#10;&#10;ready to submit!" />
-    <option name="LAST_COMMIT_MESSAGE" value="Complete; Code Complete; Final;&#10;&#10;ready to submit!" />
+    <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;Folder update" />
+    <option name="LAST_COMMIT_MESSAGE" value="Interim; Incomplete; Compiles;&#10;&#10;Folder update" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -729,19 +762,9 @@
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/pkgSlRenderEngine/SlRenderer.java</url>
-          <line>209</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/pkgTilesManager/SlTile.java</url>
           <line>53</line>
           <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/pkgSlRenderEngine/SlRenderer.java</url>
-          <line>190</line>
-          <option name="timeStamp" value="25" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/pkgTilesManager/SlTileBoard.java</url>
