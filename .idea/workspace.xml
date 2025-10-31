@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9e40f1eb-b7d4-4db3-87a3-355488ffc561" name="Changes" comment="Interim; Incomplete; Compiles;&#10;&#10;Folder almost fully added, trying to get SlRenderer.java correct...">
+    <list default="true" id="9e40f1eb-b7d4-4db3-87a3-355488ffc561" name="Changes" comment="Interim; Incomplete; Compiles;&#10;&#10;Var name fixed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pkgSlRenderEngine/SlRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pkgSlRenderEngine/SlRenderer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -710,7 +709,23 @@
       <option name="project" value="LOCAL" />
       <updated>1761780781136</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="Interim; Incomplete; Compiles;&#10;&#10;Folder fully added and structure matches professor">
+      <option name="closed" value="true" />
+      <created>1761869972768</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1761869972768</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Interim; Incomplete; Compiles;&#10;&#10;Var name fixed">
+      <option name="closed" value="true" />
+      <created>1761870103748</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1761870103748</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -728,8 +743,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Interim; Incomplete; Does Not Compile;&#10;&#10;fixed the gl window in window manager" />
-    <MESSAGE value="Interim; Incomplete; Does Not Compile;&#10;&#10;rearranged the init buffers have to fix glfwframebuffer" />
     <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;Cleaned up window manager, it was a mess, now need to get the final finishing touches, not working properly." />
     <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;the grid draws completly. need cleanup and checkups." />
     <MESSAGE value="Final; Code Complete; Runs;&#10;&#10;Fixed most warnings and errors" />
@@ -753,7 +766,9 @@
     <MESSAGE value="Complete; Code Complete; Final;&#10;&#10;ready to submit!" />
     <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;Folder update" />
     <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;Folder almost fully added, trying to get SlRenderer.java correct..." />
-    <option name="LAST_COMMIT_MESSAGE" value="Interim; Incomplete; Compiles;&#10;&#10;Folder almost fully added, trying to get SlRenderer.java correct..." />
+    <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;Folder fully added and structure matches professor" />
+    <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;Var name fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Interim; Incomplete; Compiles;&#10;&#10;Var name fixed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
