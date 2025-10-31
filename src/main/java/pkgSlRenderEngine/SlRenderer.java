@@ -6,7 +6,7 @@ public class SlRenderer {
         void generate();
     }
 
-    public static class SlRenderer {
+    public static class SlRendererTwo {
         public void render() {
             System.out.println("Rendering...");
         }
