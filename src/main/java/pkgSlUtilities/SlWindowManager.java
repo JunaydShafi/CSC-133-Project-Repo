@@ -218,6 +218,8 @@ public class SlWindowManager {
         if (errorCallback != null) glfwSetErrorCallback(null).free();
     }
 
+
+
     public int getWidth() { return width; }
     public int getHeight() { return height; }
 }
