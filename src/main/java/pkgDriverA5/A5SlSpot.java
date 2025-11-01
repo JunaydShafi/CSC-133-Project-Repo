@@ -1,7 +1,4 @@
-/*package pkgDriverA5;
-
-import org.lwjgl.Version;
-package A5pkgDriver;
+package pkgDriverA5;
 
 import org.lwjgl.Version;
 
@@ -24,4 +21,4 @@ public class A5SlSpot {
         System.out.println("LWJGL Version: " + Version.getVersion());
     }  //  public static void legalese()
 
-}**/
+}
