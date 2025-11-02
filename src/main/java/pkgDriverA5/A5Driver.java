@@ -13,10 +13,17 @@ public class A5Driver {
         SlWindowManager my_win = SlWindowManager.get(WIN_WIDTH, WIN_HEIGHT);
         int NUM_ROWS = 19, NUM_COLS = 22;
 
+        // Fallback input file name if no argument is passed
+        String inputFile = "default_input.txt";
+        if (args.length > 0) {
+            inputFile = args[0];
+        }
+
         float[] camParams = {FRUSTUM_LEFT, FRUSTUM_RIGHT, FRUSTUM_BOTTOM, FRUSTUM_TOP, Z_NEAR, Z_FAR };
         final Vector3f myCameraLocation = new Vector3f(0, 0, 0.0f);
         SlCamera myCamera = new SlCamera(camParams, myCameraLocation);
-        SlRenderer currentScene = new SlCARenderer(my_win, myCamera, args[0]);
+        //SlRenderer currentScene = new SlCARenderer(my_win, myCamera, args[0]);
+        SlRenderer currentScene = new SlCARenderer(my_win, myCamera, inputFile);
 
         currentScene.initOpenGL();
         currentScene.initRendering(NUM_ROWS, NUM_COLS);
