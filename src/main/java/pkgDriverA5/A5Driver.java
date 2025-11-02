@@ -6,7 +6,7 @@ import pkgSlUtilities.SlWindowManager;
 import pkgSlRenderEngine.SlRenderer;
 import pkgSlRenderEngine.SlCARenderer;
 
-import static pkgDriver.SlSpot.*;
+import static pkgDriverA5.A5SlSpot.*;
 
 public class A5Driver {
     public static void main(String[] args) {

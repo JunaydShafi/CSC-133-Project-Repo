@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9e40f1eb-b7d4-4db3-87a3-355488ffc561" name="Changes" comment="Interim; Incomplete; Compiles;&#10;&#10;making folder setup almost done most imported sucsessfully but assignment 5 driver and spot are difficult.">
+    <list default="true" id="9e40f1eb-b7d4-4db3-87a3-355488ffc561" name="Changes" comment="Interim; Incomplete; Compiles;&#10;&#10;fixing folder setup">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pkgDriverA5/A5Driver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pkgDriverA5/A5Driver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pkgSlUtilities/SlWindowManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pkgSlUtilities/SlWindowManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -741,7 +742,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762025513390</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="Interim; Incomplete; Compiles;&#10;&#10;fixing folder setup">
+      <option name="closed" value="true" />
+      <created>1762026593977</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1762026593977</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -759,7 +768,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;the grid draws completly. need cleanup and checkups." />
     <MESSAGE value="Final; Code Complete; Runs;&#10;&#10;Fixed most warnings and errors" />
     <MESSAGE value="Final; Code Complete; Runs;&#10;&#10;Code Cleanup" />
     <MESSAGE value="Final; Code Complete; Runs;&#10;&#10;Singelton Window Manager and no magic nums" />
@@ -784,7 +792,8 @@
     <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;Folder fully added and structure matches professor" />
     <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;Var name fixed" />
     <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;making folder setup almost done most imported sucsessfully but assignment 5 driver and spot are difficult." />
-    <option name="LAST_COMMIT_MESSAGE" value="Interim; Incomplete; Compiles;&#10;&#10;making folder setup almost done most imported sucsessfully but assignment 5 driver and spot are difficult." />
+    <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;fixing folder setup" />
+    <option name="LAST_COMMIT_MESSAGE" value="Interim; Incomplete; Compiles;&#10;&#10;fixing folder setup" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

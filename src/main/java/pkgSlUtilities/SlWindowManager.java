@@ -50,6 +50,15 @@ public class SlWindowManager {
         return instance;
     }
 
+    public static SlWindowManager get(int width, int height) {
+        if (instance == null) {
+            instance = new SlWindowManager();
+        }
+        instance.width = width;
+        instance.height = height;
+        return instance;
+    }
+
     public void initWindow() {
         glfwSetErrorCallback(errorCallback = GLFWErrorCallback.createPrint(System.err));
         if (!glfwInit()) throw new IllegalStateException("Unable to initialize GLFW");
@@ -218,7 +227,21 @@ public class SlWindowManager {
         if (errorCallback != null) glfwSetErrorCallback(null).free();
     }
 
+    public void destroyGlfwWindow() {
+        if (glfwWindow != 0) {
+            glfwDestroyWindow(glfwWindow);
+            glfwWindow = 0;
+        }
+        glfwTerminate();
+    }
 
+    public void initRendering(int rows, int cols) {
+        System.out.println("Initializing rendering with rows=" + rows + " cols=" + cols);
+    }
+
+    public void renderScene() {
+        System.out.println("Rendering scene...");
+    }
 
     public int getWidth() { return width; }
     public int getHeight() { return height; }
