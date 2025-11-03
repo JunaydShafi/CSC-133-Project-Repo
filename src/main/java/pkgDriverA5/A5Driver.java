@@ -14,7 +14,8 @@ public class A5Driver {
         int NUM_ROWS = 19, NUM_COLS = 22;
 
         // Fallback input file name if no argument is passed
-        String inputFile = "default_input.txt";
+        String inputFile = "C:\\Users\\jeoju\\Documents\\Second Semester Fall 2025\\CSC 133 Object Oriented Graph\\ASSIGNMENT_5\\src\\gol_input_1.txt";
+
         if (args.length > 0) {
             inputFile = args[0];
         }
