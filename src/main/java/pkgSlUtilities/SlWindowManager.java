@@ -157,9 +157,14 @@ public class SlWindowManager {
 
     private void updateProjectionMatrix() {
         float aspect = (float) width / height;
-        viewProjMatrix.setOrtho(-100f * aspect, 100f * aspect, -100f, 100f, 0f, 10f);
+
+// Use -1..+1 NDC-like projection scaled by aspect ratio so quads built in SlCARenderer
+// (which compute x in [-1,1] and y in [-1,1]) cover the viewport properly.
+        viewProjMatrix.setOrtho(-1.0f * aspect, 1.0f * aspect, -1.0f, 1.0f, -1.0f, 1.0f);
+
         glUseProgram(shaderProgram);
         glUniformMatrix4fv(vpMatrixLocation, false, viewProjMatrix.get(matrixBuffer));
+
     }
 
     public void initBuffers() {
