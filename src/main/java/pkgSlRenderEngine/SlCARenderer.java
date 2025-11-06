@@ -28,7 +28,7 @@ public class SlCARenderer extends SlRenderer {
     private volatile boolean updateVertexArray = true;
 
     // background + colors (tweak as desired)
-    private static final float[] BG_COLOR = new float[]{0.9f, 0.4f, 0.8f, 1.0f};
+    private static final float[] BG_COLOR = new float[]{0.0f, 0.1f, 0.5f, 1.0f};
     private static final float[] COLOR_DEAD = new float[]{1.0f, 0.5f, 0.0f}; // orange
     private static final float[] COLOR_ALIVE = new float[]{0.8f, 0.8f, 0.8f}; // silver
 
@@ -60,34 +60,121 @@ public class SlCARenderer extends SlRenderer {
     private void loadGridFromFile(String filename, int numRows, int numCols) {
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
-            int rowIndex = 0;
 
-            // Skip possible header lines the input format may contain.
-            // If your file format differs, adjust these skips accordingly.
-            br.readLine(); // skip line 0 (maybe default)
-            br.readLine(); // skip line 1 (maybe dims/header)
+            // --- headers ---
+            int defaultVal = 0;
+            line = br.readLine();                       // header #1: default
+            if (line != null) {
+                try { defaultVal = Integer.parseInt(line.trim()); } catch (Exception ignore) {}
+            }
 
-            while ((line = br.readLine()) != null && rowIndex < numRows) {
+            int fileRows = numRows, fileCols = numCols;
+            line = br.readLine();                       // header #2: "rows cols"
+            if (line != null) {
+                String[] rc = line.trim().split("\\s+");
+                if (rc.length >= 2) {
+                    try {
+                        fileRows = Integer.parseInt(rc[0]);
+                        fileCols = Integer.parseInt(rc[1]);
+                    } catch (NumberFormatException ignore) {}
+                }
+            }
+
+            boolean[] rowInit = new boolean[numRows];
+
+            while ((line = br.readLine()) != null) {
                 line = line.trim();
                 if (line.isEmpty()) continue;
 
                 String[] parts = line.split("\\s+");
-                // parts[0] may be row index in file; parts[1..] are cell values
-                for (int c = 1; c <= numCols && c < parts.length; c++) {
-                    try {
-                        gridArray.liveCellArray.arrayData[rowIndex][c - 1] = Integer.parseInt(parts[c]);
-                    } catch (NumberFormatException nfe) {
-                        gridArray.liveCellArray.arrayData[rowIndex][c - 1] = 0;
-                    }
+
+                // first token = row index
+                int r;
+                try { r = Integer.parseInt(parts[0]); } catch (NumberFormatException nfe) { continue; }
+                if (r < 0 || r >= fileRows || r >= numRows) continue;
+
+                int remaining = parts.length - 1;
+
+                // initialize row once
+                if (!rowInit[r]) {
+                    for (int c = 0; c < numCols; c++) gridArray.liveCellArray.arrayData[r][c] = 0;
+                    rowInit[r] = true;
                 }
-                rowIndex++;
+
+                // --- DENSE without offset: <row> v1..vN (N == fileCols) ---
+                if (remaining == fileCols) {
+                    int limit = Math.min(numCols, fileCols);
+                    for (int c = 0; c < limit; c++) {
+                        try {
+                            gridArray.liveCellArray.arrayData[r][c] =
+                                    Integer.parseInt(parts[c + 1]) != 0 ? 1 : 0;
+                        } catch (NumberFormatException nfe) {
+                            gridArray.liveCellArray.arrayData[r][c] = 0;
+                        }
+                    }
+                    continue;
+                }
+
+                // --- DENSE with offset: <row> offset v1..vN (N == fileCols) ---
+                if (remaining == fileCols + 1) {
+                    int offset = 0;
+                    try { offset = Integer.parseInt(parts[1]); } catch (NumberFormatException ignore) {}
+                    int start = Math.max(0, Math.min(offset, numCols - 1));
+                    int maxVals = Math.min(fileCols, numCols - start);
+
+                    for (int i = 0; i < maxVals; i++) {
+                        int dstCol = start + i;
+                        int srcIdx = 2 + i; // values start after offset
+                        try {
+                            gridArray.liveCellArray.arrayData[r][dstCol] =
+                                    Integer.parseInt(parts[srcIdx]) != 0 ? 1 : 0;
+                        } catch (NumberFormatException nfe) {
+                            gridArray.liveCellArray.arrayData[r][dstCol] = 0;
+                        }
+                    }
+                    continue;
+                }
+
+                // --- SPARSE PAIRS: <row> c0 v0 c1 v1 ... (remaining even) ---
+                if (remaining >= 2 && (remaining % 2 == 0)) {
+                    for (int i = 1; i + 1 < parts.length; i += 2) {
+                        try {
+                            int c = Integer.parseInt(parts[i]);
+                            int v = Integer.parseInt(parts[i + 1]);
+                            if (c >= 0 && c < numCols && c < fileCols) {
+                                gridArray.liveCellArray.arrayData[r][c] = (v != 0) ? 1 : 0;
+                            }
+                        } catch (NumberFormatException ignore) {}
+                    }
+                    continue;
+                }
+
+                // --- RLE: <row> len0 len1 len2 ... (toggle from defaultVal) ---
+                int curVal = defaultVal;
+                int col = 0;
+                for (int i = 1; i < parts.length && col < Math.min(numCols, fileCols); i++) {
+                    int len;
+                    try { len = Integer.parseInt(parts[i]); } catch (NumberFormatException nfe) { continue; }
+                    int end = Math.min(Math.min(numCols, fileCols), col + len);
+                    for (int c = col; c < end; c++) gridArray.liveCellArray.arrayData[r][c] = curVal;
+                    col = end;
+                    curVal = (curVal == 0) ? 1 : 0;
+                }
             }
 
-            System.out.println("Grid loaded from file: " + rowIndex + " rows");
+            // quick debug: how many live cells did we actually load?
+            int live = 0;
+            for (int rr = 0; rr < gridArray.NUM_ROWS; rr++)
+                for (int cc = 0; cc < gridArray.NUM_COLS; cc++)
+                    if (gridArray.liveCellArray.arrayData[rr][cc] == 1) live++;
+            System.out.println("Live cells after load: " + live);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
 
     /**
      * Build the sparse vertex list (quadVertices and quadColors) for every alive cell.
@@ -95,42 +182,64 @@ public class SlCARenderer extends SlRenderer {
      * We compute cell sizes based on numRows/numCols so the grid fills the view.
      */
     private void generateLCVertexArray() {
-        // Clear previous lists
         quadVertices.clear();
         quadColors.clear();
 
-        final int numRows = gridArray.NUM_ROWS;
-        final int numCols = gridArray.NUM_COLS;
+        final int rows = gridArray.NUM_ROWS;
+        final int cols = gridArray.NUM_COLS;
+        if (rows <= 0 || cols <= 0) return;
 
-        if (numRows <= 0 || numCols <= 0) return;
+        // Projection: [-aspect..+aspect] x [-1..+1]
+        final float aspect = (float) windowManager.getWidth() / windowManager.getHeight();
 
-        // compute normalized cell size assuming NDC -1..1 in both axes (prior code used this)
-        float cellWidth = 2.0f / numCols;   // x spans -1..+1
-        float cellHeight = 2.0f / numRows;  // y spans -1..+1
+        // ---- layout controls (tweak these 2 numbers to match the prof) ----
+        final float TOP_MARGIN_FRAC  = 0.18f;   // % of total vertical span kept as top margin
+        final float LEFT_MARGIN_FRAC = 0.05f;   // % of total horizontal span kept as left margin
+        final float PAD_FRAC         = 0.15f;   // % of each cell kept as gap (both axes)
 
-        for (int r = 0; r < numRows; r++) {
-            for (int c = 0; c < numCols; c++) {
-                int val = gridArray.liveCellArray.arrayData[r][c];
-                if (val == 0) {
-                    // If you want to *not* draw dead cells, skip them:
-                    continue;
-                }
-                // Flip Y so row 0 is top of the window like your previous code
-                float x = -1.0f + c * cellWidth;
-                float y = 1.0f - (r + 1) * cellHeight;
+        // Usable world-space extents after margins
+        final float totalW = 2.0f * aspect;
+        final float totalH = 2.0f;
+        final float usableW = totalW * (1.0f - LEFT_MARGIN_FRAC - LEFT_MARGIN_FRAC); // symmetric L/R
+        final float usableH = totalH * (1.0f - TOP_MARGIN_FRAC - 0.00f);             // top margin only
 
-                // Quad vertices in (x,y) pairs (4 verts) - must be length 8
+        // Cell size in world space
+        final float dx = usableW / cols;
+        final float dy = usableH / rows;
+
+        // Grid origin (bottom-left) after margins; Y is anchored from top
+        final float xLeft = -aspect + totalW * LEFT_MARGIN_FRAC;
+        final float yTop  =  1.0f    - totalH * TOP_MARGIN_FRAC;
+
+        // Inner inset for visible gaps
+        final float px = dx * (PAD_FRAC * 0.5f);
+        final float py = dy * (PAD_FRAC * 0.5f);
+
+        for (int r = 0; r < rows; r++) {
+            // top-anchored row: compute this row’s bottom and top
+            final float yBottom = yTop - (r + 1) * dy;
+            final float yTopRow = yBottom + dy;
+
+            for (int c = 0; c < cols; c++) {
+                if (gridArray.liveCellArray.arrayData[r][c] == 0) continue;
+
+                final float x0 = xLeft + c * dx;
+                final float x1 = x0 + dx;
+
+                // apply padding inset so tiles don’t touch
+                final float xmin = x0 + px;
+                final float xmax = x1 - px;
+                final float ymin = yBottom + py;
+                final float ymax = yTopRow - py;
+
                 float[] verts = new float[8];
-                verts[0] = x;                 verts[1] = y;                  // v0: top-left
-                verts[2] = x + cellWidth;     verts[3] = y;                  // v1: top-right
-                verts[4] = x + cellWidth;     verts[5] = y + cellHeight;     // v2: bottom-right
-                verts[6] = x;                 verts[7] = y + cellHeight;     // v3: bottom-left
+                verts[0] = xmin; verts[1] = ymin;
+                verts[2] = xmax; verts[3] = ymin;
+                verts[4] = xmax; verts[5] = ymax;
+                verts[6] = xmin; verts[7] = ymax;
 
                 quadVertices.add(verts);
-
-                // Color for this quad
-                if (val == 1) quadColors.add(COLOR_ALIVE);
-                else quadColors.add(COLOR_DEAD);
+                quadColors.add(COLOR_ALIVE);
             }
         }
     }

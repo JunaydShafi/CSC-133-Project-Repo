@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9e40f1eb-b7d4-4db3-87a3-355488ffc561" name="Changes" comment="Interim; Incomplete; Compiles;&#10;&#10;CELLULAR AUTOMATA!!!!">
+    <list default="true" id="9e40f1eb-b7d4-4db3-87a3-355488ffc561" name="Changes" comment="Interim; Incomplete; Compiles;&#10;&#10;ZOOMED IN , IT WORKS!!! Somewhat">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pkgDriverA5/A5Driver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pkgDriverA5/A5Driver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pkgDriverA5/A5SlSpot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pkgDriverA5/A5SlSpot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pkgSlUtilities/SlWindowManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pkgSlUtilities/SlWindowManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pkgSlRenderEngine/SlCARenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pkgSlRenderEngine/SlCARenderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pkgSlUtilities/SlGoLArray.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pkgSlUtilities/SlGoLArray.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -799,7 +801,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762214160102</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="Interim; Incomplete; Compiles;&#10;&#10;ZOOMED IN , IT WORKS!!! Somewhat">
+      <option name="closed" value="true" />
+      <created>1762383134754</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1762383134754</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -817,7 +827,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Final; Code Complete; Runs;&#10;&#10;Ready to submit!" />
     <MESSAGE value="Final; Code Complete; Runs;&#10;&#10;Ready to submit! Final Version" />
     <MESSAGE value="Final; Code Complete; Runs;&#10;&#10;Now on Assignment 4" />
     <MESSAGE value="Interm; Code Testing; Compiles;&#10;&#10;Adding files." />
@@ -842,7 +851,8 @@
     <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;the folder setup is now filled and there are no errors so assignment 3 runs, now adding logic to ass5" />
     <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;NOW RUNS AND MAKES A BLUE BACKROUND!!!" />
     <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;CELLULAR AUTOMATA!!!!" />
-    <option name="LAST_COMMIT_MESSAGE" value="Interim; Incomplete; Compiles;&#10;&#10;CELLULAR AUTOMATA!!!!" />
+    <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;ZOOMED IN , IT WORKS!!! Somewhat" />
+    <option name="LAST_COMMIT_MESSAGE" value="Interim; Incomplete; Compiles;&#10;&#10;ZOOMED IN , IT WORKS!!! Somewhat" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

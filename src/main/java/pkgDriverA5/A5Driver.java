@@ -11,7 +11,7 @@ import static pkgDriverA5.A5SlSpot.*;
 public class A5Driver {
     public static void main(String[] args) {
         SlWindowManager my_win = SlWindowManager.get(WIN_WIDTH, WIN_HEIGHT);
-        int NUM_ROWS = 19, NUM_COLS = 22;
+        int NUM_ROWS = 16, NUM_COLS = 16;
 
         // Fallback input file name if no argument is passed
         String inputFile = "C:\\Users\\jeoju\\Documents\\Second Semester Fall 2025\\CSC 133 Object Oriented Graph\\ASSIGNMENT_5\\src\\gol_input_1.txt";
