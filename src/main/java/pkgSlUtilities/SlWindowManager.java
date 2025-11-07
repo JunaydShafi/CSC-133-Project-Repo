@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.function.BiConsumer;   // <-- NEW
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -37,6 +38,10 @@ public class SlWindowManager {
     private static final int MATRIX_SIZE = 16;
     private final Matrix4f viewProjMatrix = new Matrix4f();
     private final FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(MATRIX_SIZE);
+
+    // ===== NEW: allow a client (renderer) to receive key events =====
+    private BiConsumer<Integer, Integer> keyActionHandler = null;
+    public void setKeyActionHandler(BiConsumer<Integer, Integer> handler) { this.keyActionHandler = handler; }
 
     // ========================= Singleton =========================
     private static SlWindowManager instance;
@@ -77,12 +82,18 @@ public class SlWindowManager {
         glfwSwapInterval(VSYNC_INTERVAL);
         glfwShowWindow(glfwWindow);
     }
+
     private void setupCallbacks() {
         glfwSetKeyCallback(glfwWindow, keyCallback = new GLFWKeyCallback() {
             @Override
             public void invoke(long window, int key, int scancode, int action, int mods) {
+                // Close on ESC (release)
                 if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
                     glfwSetWindowShouldClose(window, true);
+                }
+                // ===== NEW: forward to the renderer (pause/play/restart handled there) =====
+                if (keyActionHandler != null) {
+                    try { keyActionHandler.accept(key, action); } catch (Throwable t) { /* swallow */ }
                 }
             }
         });
@@ -99,7 +110,6 @@ public class SlWindowManager {
             }
         });
     }
-
 
     public void initOpenGL() {
         glfwMakeContextCurrent(glfwWindow);
@@ -158,13 +168,11 @@ public class SlWindowManager {
     private void updateProjectionMatrix() {
         float aspect = (float) width / height;
 
-// Use -1..+1 NDC-like projection scaled by aspect ratio so quads built in SlCARenderer
-// (which compute x in [-1,1] and y in [-1,1]) cover the viewport properly.
+        // Use -aspect..+aspect horizontally so your world coords from the renderer map correctly
         viewProjMatrix.setOrtho(-1.0f * aspect, 1.0f * aspect, -1.0f, 1.0f, -1.0f, 1.0f);
 
         glUseProgram(shaderProgram);
         glUniformMatrix4fv(vpMatrixLocation, false, viewProjMatrix.get(matrixBuffer));
-
     }
 
     public void initBuffers() {

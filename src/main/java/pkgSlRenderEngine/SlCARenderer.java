@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static org.lwjgl.glfw.GLFW.*;                 // <-- for GLFW_KEY_* constants
 import static pkgSlRenderEngine.SlSpot.SLEEP_INTERVAL;
 
 /**
@@ -15,6 +16,7 @@ import static pkgSlRenderEngine.SlSpot.SLEEP_INTERVAL;
  * - Builds a sparse vertex list (one quad per alive cell)
  * - Draws quads using SlWindowManager.drawQuad(...)
  * - Advances CA rules each frame and rebuilds vertex list only when needed
+ * - SPACE = pause/play,  R = restart to the file state
  */
 public class SlCARenderer extends SlRenderer {
 
@@ -23,14 +25,18 @@ public class SlCARenderer extends SlRenderer {
     private String fileName;
 
     // cached quads (each quad is float[8] -> 4 (x,y) pairs)
-    private ArrayList<float[]> quadVertices = new ArrayList<>();
-    private ArrayList<float[]> quadColors = new ArrayList<>();
+    private final ArrayList<float[]> quadVertices = new ArrayList<>();
+    private final ArrayList<float[]> quadColors   = new ArrayList<>();
     private volatile boolean updateVertexArray = true;
 
-    // background + colors (tweak as desired)
-    private static final float[] BG_COLOR = new float[]{0.0f, 0.1f, 0.5f, 1.0f};
-    private static final float[] COLOR_DEAD = new float[]{1.0f, 0.5f, 0.0f}; // orange
-    private static final float[] COLOR_ALIVE = new float[]{0.82f, 0.82f, 0.82f}; // silver
+    // controls
+    private boolean paused = false;                 // SPACE toggles this
+    private int[][] initialSnapshot;                // used for restart (R)
+
+    // background + colors
+    private static final float[] BG_COLOR    = new float[]{0.0f, 0.1f, 0.5f, 1.0f};  // true blue
+    private static final float[] COLOR_DEAD  = new float[]{1.0f, 0.5f, 0.0f};        // unused (we don't draw deads)
+    private static final float[] COLOR_ALIVE = new float[]{0.82f, 0.82f, 0.82f};     // silver
 
     public SlCARenderer(SlWindowManager win, SlCamera cam, String dataFile) {
         super(win);
@@ -43,33 +49,57 @@ public class SlCARenderer extends SlRenderer {
         System.out.println("CARenderer initializing rendering for " + numRows + "x" + numCols);
         gridArray = new SlPingPongArray(numRows, numCols);
 
-        // Load initial grid from file (populates nextCellArray in SlPingPongArray.loadFile)
-        // We'll copy values into liveCellArray so rendering starts with the loaded grid.
+        // Load initial grid from file into live array
         loadGridFromFile(fileName, numRows, numCols);
+
+        // Take a snapshot so we can restart with 'R'
+        initialSnapshot = new int[numRows][numCols];
+        for (int r = 0; r < numRows; r++) {
+            System.arraycopy(gridArray.liveCellArray.arrayData[r], 0,
+                    initialSnapshot[r], 0, numCols);
+        }
+
+        // Register for key events from the window
+        windowManager.setKeyActionHandler(this::onKey);
 
         // Ensure renderer base init happens
         super.initRendering(numRows, numCols);
 
-        // Mark vertex array initial build required
+        // First frame must build geometry
         updateVertexArray = true;
     }
 
-    /**
-     * Load the input file into the gridArray.liveCellArray. This keeps your earlier loading style.
-     */
+    // ========= keyboard handling (SPACE pause/play, R restart) =========
+    private void onKey(Integer key, Integer action) {
+        if (action != GLFW_RELEASE) return;   // act on release to avoid repeats
+
+        if (key == GLFW_KEY_SPACE) {
+            paused = !paused;
+            System.out.println(paused ? "Paused" : "Playing");
+        } else if (key == GLFW_KEY_R) {
+            // restore the snapshot
+            for (int r = 0; r < gridArray.NUM_ROWS; r++) {
+                System.arraycopy(initialSnapshot[r], 0,
+                        gridArray.liveCellArray.arrayData[r], 0,
+                        gridArray.NUM_COLS);
+            }
+            updateVertexArray = true;  // force geometry rebuild
+            System.out.println("Restarted");
+        }
+    }
+
+    // ========= file loader (supports dense, dense-with-offset, pairs, and RLE) =========
     private void loadGridFromFile(String filename, int numRows, int numCols) {
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
 
             // --- headers ---
-            int defaultVal = 0;
-            line = br.readLine();                       // header #1: default
-            if (line != null) {
-                try { defaultVal = Integer.parseInt(line.trim()); } catch (Exception ignore) {}
-            }
+            int defaultVal = 0;                        // header #1: default
+            line = br.readLine();
+            if (line != null) { try { defaultVal = Integer.parseInt(line.trim()); } catch (Exception ignore) {} }
 
-            int fileRows = numRows, fileCols = numCols;
-            line = br.readLine();                       // header #2: "rows cols"
+            int fileRows = numRows, fileCols = numCols; // header #2: "rows cols"
+            line = br.readLine();
             if (line != null) {
                 String[] rc = line.trim().split("\\s+");
                 if (rc.length >= 2) {
@@ -95,7 +125,7 @@ public class SlCARenderer extends SlRenderer {
 
                 int remaining = parts.length - 1;
 
-                // initialize row once
+                // initialize this row once so multi-line rows accumulate
                 if (!rowInit[r]) {
                     for (int c = 0; c < numCols; c++) gridArray.liveCellArray.arrayData[r][c] = 0;
                     rowInit[r] = true;
@@ -162,7 +192,7 @@ public class SlCARenderer extends SlRenderer {
                 }
             }
 
-            // quick debug: how many live cells did we actually load?
+            // quick debug
             int live = 0;
             for (int rr = 0; rr < gridArray.NUM_ROWS; rr++)
                 for (int cc = 0; cc < gridArray.NUM_COLS; cc++)
@@ -174,13 +204,7 @@ public class SlCARenderer extends SlRenderer {
         }
     }
 
-
-
-    /**
-     * Build the sparse vertex list (quadVertices and quadColors) for every alive cell.
-     * Coordinates use normalized -1..1 like your prior version, which worked with your test harness.
-     * We compute cell sizes based on numRows/numCols so the grid fills the view.
-     */
+    // Build vertices with top margin + per-cell padding
     private void generateLCVertexArray() {
         quadVertices.clear();
         quadColors.clear();
@@ -189,34 +213,27 @@ public class SlCARenderer extends SlRenderer {
         final int cols = gridArray.NUM_COLS;
         if (rows <= 0 || cols <= 0) return;
 
-        // Projection: [-aspect..+aspect] x [-1..+1]
         final float aspect = (float) windowManager.getWidth() / windowManager.getHeight();
 
-        // ---- layout controls (tweak these 2 numbers to match the prof) ----
-        final float TOP_MARGIN_FRAC  = 0.18f;   // % of total vertical span kept as top margin
-        final float LEFT_MARGIN_FRAC = 0.05f;   // % of total horizontal span kept as left margin
-        final float PAD_FRAC         = 0.40f;   // % of each cell kept as gap (both axes)
+        final float TOP_MARGIN_FRAC  = 0.18f;
+        final float LEFT_MARGIN_FRAC = 0.05f;
+        final float PAD_FRAC         = 0.40f;
 
-        // Usable world-space extents after margins
         final float totalW = 2.0f * aspect;
         final float totalH = 2.0f;
-        final float usableW = totalW * (1.0f - LEFT_MARGIN_FRAC - LEFT_MARGIN_FRAC); // symmetric L/R
-        final float usableH = totalH * (1.0f - TOP_MARGIN_FRAC - 0.00f);             // top margin only
+        final float usableW = totalW * (1.0f - LEFT_MARGIN_FRAC - LEFT_MARGIN_FRAC);
+        final float usableH = totalH * (1.0f - TOP_MARGIN_FRAC);
 
-        // Cell size in world space
         final float dx = usableW / cols;
         final float dy = usableH / rows;
 
-        // Grid origin (bottom-left) after margins; Y is anchored from top
         final float xLeft = -aspect + totalW * LEFT_MARGIN_FRAC;
         final float yTop  =  1.0f    - totalH * TOP_MARGIN_FRAC;
 
-        // Inner inset for visible gaps
         final float px = dx * (PAD_FRAC * 0.5f);
         final float py = dy * (PAD_FRAC * 0.5f);
 
         for (int r = 0; r < rows; r++) {
-            // top-anchored row: compute this row’s bottom and top
             final float yBottom = yTop - (r + 1) * dy;
             final float yTopRow = yBottom + dy;
 
@@ -226,7 +243,6 @@ public class SlCARenderer extends SlRenderer {
                 final float x0 = xLeft + c * dx;
                 final float x1 = x0 + dx;
 
-                // apply padding inset so tiles don’t touch
                 final float xmin = x0 + px;
                 final float xmax = x1 - px;
                 final float ymin = yBottom + py;
@@ -244,20 +260,14 @@ public class SlCARenderer extends SlRenderer {
         }
     }
 
-    /**
-     * Advance one tick of the Game of Life rules into nextCellArray and swap.
-     * Uses toroidal wrapping as implemented in getNNSum().
-     */
+    // Advance one tick of the Game of Life into next array and swap
     private void tickUpdate() {
         final int rows = gridArray.NUM_ROWS;
         final int cols = gridArray.NUM_COLS;
 
-        // initialize next array to zeros
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < cols; c++) {
+        for (int r = 0; r < rows; r++)
+            for (int c = 0; c < cols; c++)
                 gridArray.nextCellArray.arrayData[r][c] = 0;
-            }
-        }
 
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
@@ -266,25 +276,17 @@ public class SlCARenderer extends SlRenderer {
                 if (neighbors == 3) {
                     gridArray.nextCellArray.arrayData[r][c] = 1;
                 } else if (neighbors == 2) {
-                    gridArray.nextCellArray.arrayData[r][c] = cur; // keep current state
+                    gridArray.nextCellArray.arrayData[r][c] = cur;
                 } else {
                     gridArray.nextCellArray.arrayData[r][c] = 0;
                 }
             }
         }
 
-        // swap live / next
         gridArray.swapLiveAndNext();
-
-        // mark vertex array for rebuild
         updateVertexArray = true;
     }
 
-    /**
-     * Main render loop. Uses windowManager.runRenderLoop(Runnable) to handle event poll & swap,
-     * but we follow the intended flow: clear, generate vertex array if needed, draw, optionally sleep,
-     * then advance the CA tick.
-     */
     @Override
     public void renderScene() {
         final int numRows = gridArray.NUM_ROWS;
@@ -292,41 +294,33 @@ public class SlCARenderer extends SlRenderer {
 
         System.out.println("Rendering scene: rows=" + numRows + ", cols=" + numCols);
 
-        // The frame callback passed to windowManager.runRenderLoop will be executed every frame.
         windowManager.runRenderLoop(() -> {
-            // Clear background
             GL11.glClearColor(BG_COLOR[0], BG_COLOR[1], BG_COLOR[2], BG_COLOR[3]);
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
-            // Rebuild the vertex list only if flagged
             if (updateVertexArray) {
                 generateLCVertexArray();
                 updateVertexArray = false;
             }
 
-            // Draw all quads via windowManager helper
             final int quadCount = quadVertices.size();
             for (int i = 0; i < quadCount; i++) {
                 float[] verts = quadVertices.get(i);
-                float[] col = quadColors.get(i);
-                // windowManager.drawQuad expects float[8] and float[3]
-                try {
-                    windowManager.drawQuad(verts, col);
-                } catch (IllegalArgumentException iae) {
-                    // If something unexpected, print and continue
+                float[] col   = quadColors.get(i);
+                try { windowManager.drawQuad(verts, col); }
+                catch (IllegalArgumentException iae) {
                     System.err.println("drawQuad failed for tile " + i + ": " + iae.getMessage());
                 }
             }
 
-            // optional sleep to control simulation speed (0 means no sleep)
             if (SLEEP_INTERVAL > 0) {
-                try {
-                    Thread.sleep(SLEEP_INTERVAL);
-                } catch (InterruptedException ignored) { }
+                try { Thread.sleep(SLEEP_INTERVAL); } catch (InterruptedException ignored) { }
             }
 
-            // Advance the Game of Life by one tick
-            tickUpdate();
+            // only advance when not paused
+            if (!paused) {
+                tickUpdate();
+            }
         });
     }
 }
