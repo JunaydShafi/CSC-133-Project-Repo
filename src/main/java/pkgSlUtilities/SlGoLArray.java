@@ -11,9 +11,7 @@ public class SlGoLArray {
         this.ppa = new SlPingPongArray(rows, cols);
     }
 
-    // keep prof’s expected name
     public void onTickUpdate() {
-        // standard GoL rule using the ping-pong arrays inside ppa
         for (int r = 0; r < NUM_ROWS; r++)
             for (int c = 0; c < NUM_COLS; c++)
                 ppa.nextCellArray.arrayData[r][c] = 0;
@@ -28,10 +26,9 @@ public class SlGoLArray {
         ppa.swapLiveAndNext();
     }
 
-    // expected by the diagram
     public int[] getNumRowsCols() { return new int[]{NUM_ROWS, NUM_COLS}; }
 
-    // helpers so your renderer code doesn’t change much
+    // helpers functions
     public SlIntArray live() { return ppa.liveCellArray; }
     public SlIntArray next() { return ppa.nextCellArray; }
     public int getNNSum(int r, int c) { return ppa.getNNSum(r, c); }

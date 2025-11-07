@@ -39,7 +39,7 @@ public class SlWindowManager {
     private final Matrix4f viewProjMatrix = new Matrix4f();
     private final FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(MATRIX_SIZE);
 
-    // ===== NEW: allow a client (renderer) to receive key events =====
+    // used for the pause / restart
     private BiConsumer<Integer, Integer> keyActionHandler = null;
     public void setKeyActionHandler(BiConsumer<Integer, Integer> handler) { this.keyActionHandler = handler; }
 
@@ -87,11 +87,10 @@ public class SlWindowManager {
         glfwSetKeyCallback(glfwWindow, keyCallback = new GLFWKeyCallback() {
             @Override
             public void invoke(long window, int key, int scancode, int action, int mods) {
-                // Close on ESC (release)
                 if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
                     glfwSetWindowShouldClose(window, true);
                 }
-                // ===== NEW: forward to the renderer (pause/play/restart handled there) =====
+
                 if (keyActionHandler != null) {
                     try { keyActionHandler.accept(key, action); } catch (Throwable t) { /* swallow */ }
                 }

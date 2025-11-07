@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9e40f1eb-b7d4-4db3-87a3-355488ffc561" name="Changes" comment="Interim; Incomplete; Compiles;&#10;&#10;Almost submit worthy, adding a feature to slow it down">
-      <change beforePath="$PROJECT_DIR$/src/main/java/pkgSlUtilities/SlWindowManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pkgSlUtilities/SlWindowManager.java" afterDir="false" />
+    <list default="true" id="9e40f1eb-b7d4-4db3-87a3-355488ffc561" name="Changes" comment="Interim; Incomplete; Compiles;&#10;&#10;Pause restart option added!">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pkgSlRenderEngine/SlCARenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pkgSlRenderEngine/SlCARenderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pkgSlRenderEngine/SlRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pkgSlRenderEngine/SlRenderer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -821,7 +823,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762552823859</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="Interim; Incomplete; Compiles;&#10;&#10;Pause restart option added!">
+      <option name="closed" value="true" />
+      <created>1762553253406</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1762553253406</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -839,7 +849,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Interm; Code Testing; Compiles;&#10;&#10;Adding files." />
     <MESSAGE value="Interm; Code Testing; Compiles;&#10;&#10;Adding code to Run test cases." />
     <MESSAGE value="Interm; Code Testing; Compiles;&#10;&#10;Running test cases correctly!" />
     <MESSAGE value="Interm; Code Testing; Compiles;&#10;&#10;Load File Implimented" />
@@ -864,7 +873,8 @@
     <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;ZOOMED IN , IT WORKS!!! Somewhat" />
     <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;Looks Amazing Almosy Complets" />
     <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;Almost submit worthy, adding a feature to slow it down" />
-    <option name="LAST_COMMIT_MESSAGE" value="Interim; Incomplete; Compiles;&#10;&#10;Almost submit worthy, adding a feature to slow it down" />
+    <MESSAGE value="Interim; Incomplete; Compiles;&#10;&#10;Pause restart option added!" />
+    <option name="LAST_COMMIT_MESSAGE" value="Interim; Incomplete; Compiles;&#10;&#10;Pause restart option added!" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

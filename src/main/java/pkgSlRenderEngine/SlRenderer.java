@@ -3,10 +3,6 @@ package pkgSlRenderEngine;
 import pkgSlUtilities.SlWindowManager;
 import org.lwjgl.opengl.GL11;
 
-/**
- * Base renderer class for all rendering types (e.g., CA Renderer).
- * Provides OpenGL setup, window management, and a render loop hook.
- */
 public class SlRenderer {
 
     protected SlWindowManager windowManager;
@@ -16,9 +12,7 @@ public class SlRenderer {
         this.windowManager = win;
     }
 
-    /**
-     * Initializes the OpenGL context and prepares the rendering window.
-     */
+
     public void initOpenGL() {
         windowManager.initWindow();
         windowManager.initOpenGL();
@@ -26,16 +20,12 @@ public class SlRenderer {
         System.out.println("OpenGL initialized in SlRenderer.");
     }
 
-    /**
-     * Called once before rendering starts to set up scene parameters.
-     */
+
     public void initRendering(int numRows, int numCols) {
         System.out.println("Initializing rendering base: rows=" + numRows + ", cols=" + numCols);
     }
 
-    /**
-     * Main rendering loop. Subclasses should override this to draw their scene.
-     */
+
     public void renderScene() {
         System.out.println("Base renderScene() called (no scene to draw).");
 
@@ -46,9 +36,7 @@ public class SlRenderer {
         });
     }
 
-    /**
-     * Gracefully stops the render loop (if supported by windowManager).
-     */
+
     public void stopRendering() {
         running = false;
         System.out.println("Rendering stopped.");

@@ -8,19 +8,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static org.lwjgl.glfw.GLFW.*;                 // <-- for GLFW_KEY_* constants
+import static org.lwjgl.glfw.GLFW.*;
 import static pkgSlRenderEngine.SlSpot.SLEEP_INTERVAL;
 
-/**
- * SlCARenderer - Cellular Automata renderer (Game of Life)
- * - Builds a sparse vertex list (one quad per alive cell)
- * - Draws quads using SlWindowManager.drawQuad(...)
- * - Advances CA rules each frame and rebuilds vertex list only when needed
- * - SPACE = pause/play,  R = restart to the file state
- */
+
+ // ***************** EXTRA FEATURE: SPACE = pause/play,  R = restart the Cellular Automata *************************************
+
 public class SlCARenderer extends SlRenderer {
 
-    // board
     private SlPingPongArray gridArray;
     private String fileName;
 
@@ -29,13 +24,11 @@ public class SlCARenderer extends SlRenderer {
     private final ArrayList<float[]> quadColors   = new ArrayList<>();
     private volatile boolean updateVertexArray = true;
 
-    // controls
-    private boolean paused = false;                 // SPACE toggles this
-    private int[][] initialSnapshot;                // used for restart (R)
+    private boolean paused = false;                 // Space bar pause / play
+    private int[][] initialSnapshot;                // restart the CA
 
-    // background + colors
     private static final float[] BG_COLOR    = new float[]{0.0f, 0.1f, 0.5f, 1.0f};  // true blue
-    private static final float[] COLOR_DEAD  = new float[]{1.0f, 0.5f, 0.0f};        // unused (we don't draw deads)
+    private static final float[] COLOR_DEAD  = new float[]{1.0f, 0.5f, 0.0f};        // DOnt really need but just because i used this for testimg
     private static final float[] COLOR_ALIVE = new float[]{0.82f, 0.82f, 0.82f};     // silver
 
     public SlCARenderer(SlWindowManager win, SlCamera cam, String dataFile) {
@@ -52,24 +45,21 @@ public class SlCARenderer extends SlRenderer {
         // Load initial grid from file into live array
         loadGridFromFile(fileName, numRows, numCols);
 
-        // Take a snapshot so we can restart with 'R'
+        // Take a snapshot so we can restart whenever we want
         initialSnapshot = new int[numRows][numCols];
         for (int r = 0; r < numRows; r++) {
             System.arraycopy(gridArray.liveCellArray.arrayData[r], 0,
                     initialSnapshot[r], 0, numCols);
         }
 
-        // Register for key events from the window
         windowManager.setKeyActionHandler(this::onKey);
 
-        // Ensure renderer base init happens
         super.initRendering(numRows, numCols);
 
-        // First frame must build geometry
         updateVertexArray = true;
     }
 
-    // ========= keyboard handling (SPACE pause/play, R restart) =========
+    // Check to catch pause and restart keys pressed
     private void onKey(Integer key, Integer action) {
         if (action != GLFW_RELEASE) return;   // act on release to avoid repeats
 
@@ -88,17 +78,15 @@ public class SlCARenderer extends SlRenderer {
         }
     }
 
-    // ========= file loader (supports dense, dense-with-offset, pairs, and RLE) =========
     private void loadGridFromFile(String filename, int numRows, int numCols) {
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
 
-            // --- headers ---
-            int defaultVal = 0;                        // header #1: default
+            int defaultVal = 0;
             line = br.readLine();
             if (line != null) { try { defaultVal = Integer.parseInt(line.trim()); } catch (Exception ignore) {} }
 
-            int fileRows = numRows, fileCols = numCols; // header #2: "rows cols"
+            int fileRows = numRows, fileCols = numCols;
             line = br.readLine();
             if (line != null) {
                 String[] rc = line.trim().split("\\s+");
@@ -118,20 +106,17 @@ public class SlCARenderer extends SlRenderer {
 
                 String[] parts = line.split("\\s+");
 
-                // first token = row index
                 int r;
                 try { r = Integer.parseInt(parts[0]); } catch (NumberFormatException nfe) { continue; }
                 if (r < 0 || r >= fileRows || r >= numRows) continue;
 
                 int remaining = parts.length - 1;
 
-                // initialize this row once so multi-line rows accumulate
                 if (!rowInit[r]) {
                     for (int c = 0; c < numCols; c++) gridArray.liveCellArray.arrayData[r][c] = 0;
                     rowInit[r] = true;
                 }
 
-                // --- DENSE without offset: <row> v1..vN (N == fileCols) ---
                 if (remaining == fileCols) {
                     int limit = Math.min(numCols, fileCols);
                     for (int c = 0; c < limit; c++) {
@@ -145,7 +130,6 @@ public class SlCARenderer extends SlRenderer {
                     continue;
                 }
 
-                // --- DENSE with offset: <row> offset v1..vN (N == fileCols) ---
                 if (remaining == fileCols + 1) {
                     int offset = 0;
                     try { offset = Integer.parseInt(parts[1]); } catch (NumberFormatException ignore) {}
@@ -154,7 +138,7 @@ public class SlCARenderer extends SlRenderer {
 
                     for (int i = 0; i < maxVals; i++) {
                         int dstCol = start + i;
-                        int srcIdx = 2 + i; // values start after offset
+                        int srcIdx = 2 + i;
                         try {
                             gridArray.liveCellArray.arrayData[r][dstCol] =
                                     Integer.parseInt(parts[srcIdx]) != 0 ? 1 : 0;
@@ -165,7 +149,6 @@ public class SlCARenderer extends SlRenderer {
                     continue;
                 }
 
-                // --- SPARSE PAIRS: <row> c0 v0 c1 v1 ... (remaining even) ---
                 if (remaining >= 2 && (remaining % 2 == 0)) {
                     for (int i = 1; i + 1 < parts.length; i += 2) {
                         try {
@@ -179,7 +162,6 @@ public class SlCARenderer extends SlRenderer {
                     continue;
                 }
 
-                // --- RLE: <row> len0 len1 len2 ... (toggle from defaultVal) ---
                 int curVal = defaultVal;
                 int col = 0;
                 for (int i = 1; i < parts.length && col < Math.min(numCols, fileCols); i++) {
@@ -192,7 +174,7 @@ public class SlCARenderer extends SlRenderer {
                 }
             }
 
-            // quick debug
+            // Print info to debug
             int live = 0;
             for (int rr = 0; rr < gridArray.NUM_ROWS; rr++)
                 for (int cc = 0; cc < gridArray.NUM_COLS; cc++)
@@ -204,7 +186,6 @@ public class SlCARenderer extends SlRenderer {
         }
     }
 
-    // Build vertices with top margin + per-cell padding
     private void generateLCVertexArray() {
         quadVertices.clear();
         quadColors.clear();
@@ -260,7 +241,6 @@ public class SlCARenderer extends SlRenderer {
         }
     }
 
-    // Advance one tick of the Game of Life into next array and swap
     private void tickUpdate() {
         final int rows = gridArray.NUM_ROWS;
         final int cols = gridArray.NUM_COLS;
@@ -317,7 +297,6 @@ public class SlCARenderer extends SlRenderer {
                 try { Thread.sleep(SLEEP_INTERVAL); } catch (InterruptedException ignored) { }
             }
 
-            // only advance when not paused
             if (!paused) {
                 tickUpdate();
             }

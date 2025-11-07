@@ -8,7 +8,6 @@ public class SlRandomArray {
     public SlRandomArray() {
     }
 
-    // Fisher–Yates shuffle to randomize an array in-place
     public void randomizeIntegerArray(int[] array) {
         Random rand = new Random();
         for (int i = array.length - 1; i > 0; i--) {
@@ -19,7 +18,6 @@ public class SlRandomArray {
         }
     }
 
-    // Generate a randomized integer array of size n
     public int[] getRandomizedIntegerArray(int n) {
         int[] array = new int[n];
         for (int i = 0; i < n; i++) {
