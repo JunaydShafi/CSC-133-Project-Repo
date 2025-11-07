@@ -30,7 +30,7 @@ public class SlCARenderer extends SlRenderer {
     // background + colors (tweak as desired)
     private static final float[] BG_COLOR = new float[]{0.0f, 0.1f, 0.5f, 1.0f};
     private static final float[] COLOR_DEAD = new float[]{1.0f, 0.5f, 0.0f}; // orange
-    private static final float[] COLOR_ALIVE = new float[]{0.8f, 0.8f, 0.8f}; // silver
+    private static final float[] COLOR_ALIVE = new float[]{0.82f, 0.82f, 0.82f}; // silver
 
     public SlCARenderer(SlWindowManager win, SlCamera cam, String dataFile) {
         super(win);
@@ -195,7 +195,7 @@ public class SlCARenderer extends SlRenderer {
         // ---- layout controls (tweak these 2 numbers to match the prof) ----
         final float TOP_MARGIN_FRAC  = 0.18f;   // % of total vertical span kept as top margin
         final float LEFT_MARGIN_FRAC = 0.05f;   // % of total horizontal span kept as left margin
-        final float PAD_FRAC         = 0.15f;   // % of each cell kept as gap (both axes)
+        final float PAD_FRAC         = 0.40f;   // % of each cell kept as gap (both axes)
 
         // Usable world-space extents after margins
         final float totalW = 2.0f * aspect;
